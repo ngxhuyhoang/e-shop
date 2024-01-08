@@ -16,7 +16,7 @@ const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [login, setLogin] = useState('');
+  const [login, setLogin] = useState('false');
 
   const validateEmail = (email: string) => {
     const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
@@ -36,16 +36,16 @@ const Login = () => {
 
     if (login) {
       navigate("Login", { userData: { email, password } });
-      Alert.alert('Thông báo', 'Đăng nhập thất bại!')
-    } else {
       Alert.alert('Thông báo', 'Đăng nhập thành công!')
+    } else {
+      Alert.alert('Thông báo', 'Đăng nhập thất bại!')
     }
 
     navigate('MainStack');
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'stretch', paddingHorizontal: 16 }}>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'stretch', paddingHorizontal: 16, backgroundColor: '#CFD8EF', }}>
       <KeyboardAvoidingView>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View>
@@ -54,13 +54,17 @@ const Login = () => {
               placeholder="Email"
               value={email}
               onChangeText={(text) => setEmail(text)}
+              style={{ borderWidth: 1, paddingHorizontal: 10, borderRadius: 10}}
             />
             <TextInput
               placeholder="Password"
               value={password}
               onChangeText={(text) => setPassword(text)}
-
+              autoCorrect={false} 
+              secureTextEntry={true} 
+              style={{ borderWidth: 1, paddingHorizontal: 10, borderRadius: 10}}
             />
+           
             <View>
               <Button title="Đăng nhập" onPress={handleLogin}
               />
