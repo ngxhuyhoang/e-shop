@@ -3,7 +3,7 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import Dashboard from '../features/list-product/list-product.screen';
 import Profile from '../features/profile/profile.screen';
-import ListOrder from '../features/list-order/list-product.screen';
+import ListOrder from '../features/list-order/list-order.screen';
 
 const Tab = createBottomTabNavigator();
 
