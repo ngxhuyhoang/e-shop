@@ -2,9 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import MainStack from './main.stack';
 import AuthStack from './auth.stack';
-
 const Stack = createNativeStackNavigator();
-
 const AppStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -13,5 +11,4 @@ const AppStack = () => {
     </Stack.Navigator>
   );
 };
-
 export default AppStack;
