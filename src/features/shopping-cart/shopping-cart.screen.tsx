@@ -1,10 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
-import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {
   Alert,
-  Button,
-  FlatList,
   Image,
   StyleSheet,
   Text,
@@ -12,8 +9,9 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
+import { ShoppingCart } from './ShoppingCart';
 
-const data = [
+export const data = [
   {
     id: 1,
     image:
@@ -70,7 +68,7 @@ interface ItemProps {
   totalAmount: number;
 }
 
-const Item = ({ id, image, name, price, totalAmount }: ItemProps) => {
+export const Item = ({ id, image, name, price, totalAmount }: ItemProps) => {
   const [quantity, setQuantity] = useState(1);
   totalAmount = quantity * price;
   const onIncrease = () => {
@@ -148,61 +146,6 @@ const Item = ({ id, image, name, price, totalAmount }: ItemProps) => {
           </Text>
         </View>
       </View>
-    </View>
-  );
-};
-
-const ShoppingCart = () => {
-  const navigation = useNavigation();
-
-  const renderItem = ({ item }: any) => (
-    <Item
-      id={item.id}
-      image={item.image}
-      name={item.name}
-      price={item.price}
-      quantity={item.quantity}
-      totalAmount={item.totalAmount}
-    />
-  );
-
-  const onPress = () => {
-    navigation.navigate('ListOrder');
-  };
-
-  return (
-    <View style={{ flex: 1, backgroundColor: '#DDDDDD' }}>
-      <Button onPress={onPress} title="List Order" />
-
-      <Text
-        style={{
-          backgroundColor: 'white',
-          paddingLeft: 30,
-          paddingBottom: 30,
-          paddingTop: 20,
-          fontSize: 25,
-        }}>
-        Giỏ hàng
-      </Text>
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 }}
-        ListEmptyComponent={() => {
-          return (
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginTop: 128,
-              }}>
-              <Text>Giỏ hàng trống.</Text>
-            </View>
-          );
-        }}
-      />
-      <Button title="Thanh toán" />
     </View>
   );
 };
