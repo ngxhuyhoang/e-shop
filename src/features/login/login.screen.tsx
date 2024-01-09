@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
+  TouchableOpacity,
   Text,
   View,
   TextInput,
@@ -10,6 +11,7 @@ import {
   Button,
   Alert,
 } from 'react-native';
+import MainStack from '../../navigators/main.stack';
 
 const Login = () => {
   const { navigate } = useNavigation<any>();
@@ -23,7 +25,7 @@ const Login = () => {
     return emailRegex.test(email);
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!validateEmail(email)) {
       Alert.alert('Thông báo', 'Email không hợp lệ');
       return;
@@ -34,14 +36,28 @@ const Login = () => {
       return;
     }
 
-    if (login) {
-      navigate("Login", { userData: { email, password } });
-      Alert.alert('Thông báo', 'Đăng nhập thành công!')
-    } else {
-      Alert.alert('Thông báo', 'Đăng nhập thất bại!')
-    }
+    try {
+      const response = await fetch('https://eshop-api.ngxhuyhoang.com/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
 
-    navigate('MainStack');
+      if (response.ok) {
+        navigate('MainStack');
+        Alert.alert('Thông báo', 'Đăng nhập thành công!');
+      } else {
+        Alert.alert('Thông báo', 'Đăng nhập thất bại!');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      Alert.alert('Lỗi', 'Có lỗi xảy ra. Vui lòng thử lại sau.');
+    }
   };
 
   return (
@@ -49,12 +65,12 @@ const Login = () => {
       <KeyboardAvoidingView>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View>
-            <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign:'center' }}>Đăng nhập</Text>
+            <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign:'center', marginBottom: 50 }}>Đăng nhập</Text>
             <TextInput
               placeholder="Email"
               value={email}
               onChangeText={(text) => setEmail(text)}
-              style={{ borderWidth: 1, paddingHorizontal: 10, borderRadius: 10}}
+              style={{ borderWidth: 1, paddingHorizontal: 10, borderRadius: 10, marginBottom: 10 }}
             />
             <TextInput
               placeholder="Password"
@@ -62,12 +78,26 @@ const Login = () => {
               onChangeText={(text) => setPassword(text)}
               autoCorrect={false} 
               secureTextEntry={true} 
-              style={{ borderWidth: 1, paddingHorizontal: 10, borderRadius: 10}}
+              style={{ borderWidth: 1, paddingHorizontal: 10, borderRadius: 10, marginBottom: 20}}
             />
+            
            
             <View>
               <Button title="Đăng nhập" onPress={handleLogin}
               />
+            </View>
+
+            <View style={{marginTop: 20}}>
+              <Text style={{textAlign: 'right'}}>Bạn chưa có tài khoản?
+              <TouchableOpacity
+              onPress={() => {
+                navigate(''); 
+              }}
+              >
+                <Text style={{color: '#0c66e4'}}> Đăng ký</Text>
+                </TouchableOpacity>
+              </Text>
+              
             </View>
           </View>
         </TouchableWithoutFeedback>
