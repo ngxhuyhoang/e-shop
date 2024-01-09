@@ -1,78 +1,84 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import React, { useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  ListRenderItem,
+} from 'react-native';
+import axios from 'axios';
 
 const ProductPage = () => {
-  const [products] = useState([
-    {
-      id: 1,
-      name: 'Product 1',
-      price: 'giá',
-      image: require('../../../pics/product1.png'),
-    },
-    {
-      id: 2,
-      name: 'Product 2',
-      price: 'giá',
-      image: require('../../../pics/product2.jpg'),
-    },
-    {
-      id: 3,
-      name: 'Product 3',
-      price: 'giá',
-      image: require('../../../pics/product3.jpg'),
-    },
-    {
-      id: 4,
-      name: 'Product 4',
-      price: 'giá',
-      image: require('../../../pics/product4.jpg'),
-    },
-    {
-      id: 5,
-      name: 'Product 5',
-      price: 'giá',
-      image: require('../../../pics/product5.jpg'),
-    },
-    {
-      id: 6,
-      name: 'Product 6',
-      price: 'giá',
-      image: require('../../../pics/product6.jpg'),
-    },
-    {
-      id: 7,
-      name: 'Product 7',
-      price: 'giá',
-      image: require('../../../pics/product7.jpg'),
-    },
-    {
-      id: 8,
-      name: 'Product 8',
-      price: 'giá',
-      image: require('../../../pics/product8.jpg'),
-    },
-  ]);
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    handleGetListProduct();
+  }, []);
+
+  const handleGetListProduct = async () => {
+    try {
+      const { data: responseData } = await axios.get(
+        'https://eshop-api.ngxhuyhoang.com/product/list',
+      );
+      setProducts(responseData.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   // const screenWidth = Dimensions.get('window').width;
 
-  const renderItem = ({ item }) => {
+  const renderItem: ListRenderItem<any> = ({ item }) => {
     return (
-      <View style={styles.productContainer}>
-        <Image source={item.image} style={styles.productImage} />
-        <Text style={styles.productName}>{item.name}</Text>
-        <Text style={styles.productPrice}>{item.price}$</Text>
-      </View>
+      <TouchableOpacity style={styles.productContainer}>
+        <Image
+          source={{ uri: item.image }}
+          style={{ width: '100%', height: 200 }}
+        />
+        <View style={{ justifyContent: 'space-between', flex: 1 }}>
+          <Text style={styles.productName} numberOfLines={2}>
+            {item.title}
+          </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}>
+            <View>
+              <Text
+                style={{
+                  color: 'red',
+                }}>
+                đ {item.price}
+              </Text>
+            </View>
+            <TouchableOpacity onPress={() => {}}>
+              <Image
+                source={require('../../../pics/cart.png')}
+                style={styles.buyItemIcon}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </TouchableOpacity>
     );
   };
 
   return (
     <View style={styles.container}>
+      <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 16 }}>
+        Danh sách sản phẩm
+      </Text>
       <FlatList
         data={products}
         numColumns={2}
-        renderItem={renderItem}
+        renderItem={item => renderItem(item)}
         keyExtractor={item => item.id.toString()}
         columnWrapperStyle={styles.columnWrapper}
+        showsVerticalScrollIndicator={false}
+        ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
       />
     </View>
   );
@@ -87,10 +93,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   productContainer: {
-    width: '50%',
-    marginBottom: 8,
+    width: '48%',
     paddingHorizontal: 4,
-    backgroundColor: 'lightgray',
+    backgroundColor: 'white',
+    borderRadius: 8,
+    paddingBottom: 16,
   },
   productImage: {
     width: '100%',
@@ -102,9 +109,26 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginVertical: 8,
   },
+
   productPrice: {
     fontSize: 14,
-    color: 'gray',
+    color: 'red',
+    alignSelf: 'flex-start',
+  },
+  productInfor: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 8,
+  },
+  buyItem: {
+    marginHorizontal: 8,
+    tintColor: 'red',
+  },
+  buyItemIcon: {
+    marginHorizontal: 8,
+    width: 24,
+    height: 24,
   },
 });
 
