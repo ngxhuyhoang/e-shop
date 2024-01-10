@@ -1,19 +1,18 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useEffect, useState } from 'react';
-import MainStack from './main.stack';
-import AuthStack from './auth.stack';
 import { useNavigation } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React, { useEffect } from 'react';
+import AuthStack from './auth.stack';
+import MainStack from './main.stack';
 
 const Stack = createNativeStackNavigator();
-
 const AppStack = () => {
   const { navigate } = useNavigation<any>();
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
         const token = await AsyncStorage.getItem('userToken');
-        console.log(token)
+        console.log(token);
 
         if (token) {
           navigate('MainStack');
@@ -25,7 +24,7 @@ const AppStack = () => {
       }
     };
     checkLoginStatus();
-  }, [navigate]); 
+  }, [navigate]);
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="AuthStack" component={AuthStack} />
@@ -33,5 +32,4 @@ const AppStack = () => {
     </Stack.Navigator>
   );
 };
-
 export default AppStack;
