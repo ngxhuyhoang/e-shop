@@ -1,4 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 import MainStack from './main.stack';
 import AuthStack from './auth.stack';
