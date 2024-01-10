@@ -14,6 +14,7 @@ import {
   Alert,
 } from 'react-native';
 import MainStack from '../../navigators/main.stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = () => {
   const { navigate } = useNavigation<any>();
@@ -48,6 +49,7 @@ const Login = () => {
         },
       });
       console.log(response.data);
+      await AsyncStorage.setItem('userToken', response.data.data.accessToken)
       navigate('MainStack');
     } catch (error) {
       console.error(error);
