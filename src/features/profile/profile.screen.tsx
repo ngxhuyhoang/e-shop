@@ -8,7 +8,7 @@ const Profile = () => {
   return (
     <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#f0f'}}>
       
-      <View style={{ flex: 1, backgroundColor: '#0c66e4'}}>api
+      <View style={{ flex: 1, backgroundColor: '#0c66e4'}}>
       <Text>John Doe</Text>
       </View>
       <View style={{ flex: 3, backgroundColor: '#ffff'}}>
