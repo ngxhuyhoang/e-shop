@@ -10,8 +10,10 @@ import {
   ListRenderItem,
 } from 'react-native';
 import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
 
 const ProductPage = () => {
+  const navigation = useNavigation<any>();
   const [products, setProducts] = useState([]);
   useEffect(() => {
     handleGetListProduct();
@@ -32,7 +34,9 @@ const ProductPage = () => {
 
   const renderItem: ListRenderItem<any> = ({ item }) => {
     return (
-      <TouchableOpacity style={styles.productContainer}>
+      <TouchableOpacity
+        style={styles.productContainer}
+        onPress={() => navigation.navigate('DetailProduct')}>
         <Image
           source={{ uri: item.image }}
           style={{ width: '100%', height: 200 }}
@@ -51,10 +55,10 @@ const ProductPage = () => {
                 style={{
                   color: 'red',
                 }}>
-                đ {item.price}
+                {item.price} $
               </Text>
             </View>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity>
               <Image
                 source={require('../../../pics/cart.png')}
                 style={styles.buyItemIcon}

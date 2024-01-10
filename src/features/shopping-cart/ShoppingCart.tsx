@@ -38,7 +38,7 @@ export const ShoppingCart = () => {
   return (
     <View style={{ flex: 1, backgroundColor: '#DDDDDD' }}>
       {/* <Button onPress={onPress} title="List Order" /> */}
-      <NavBar title="Gio hang" />
+      <NavBar title="" />
       <Text
         style={{
           backgroundColor: 'white',
