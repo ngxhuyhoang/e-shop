@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {
+  Alert,
   Button,
   FlatList,
   Modal,
@@ -12,6 +13,7 @@ import {
 import { Item, data } from './shopping-cart.screen';
 import NavBar from '../nav-bar/nav-bar';
 import Icon from 'react-native-vector-icons/AntDesign';
+import NotificationPopup from 'react-native-push-notification-popup';
 
 const userInfo = {
   name: 'abc',
@@ -85,9 +87,6 @@ export const Payment = ({ isVisible, onClose }) => {
     return accumulator + currentValue.totalAmount;
   }, 0);
 
-  const onOrder = () => {
-    console.log('Đang đặt hàng');
-  };
   const navigation = useNavigation();
   return (
     <Modal
@@ -269,7 +268,12 @@ export const Payment = ({ isVisible, onClose }) => {
           <View style={{ marginTop: 10 }}>
             <TouchableOpacity
               onPress={() => {
-                onOrder();
+                Alert.alert('', 'Đặt hàng thành công', [
+                  {
+                    text: 'OK',
+                    onPress: () => navigation.navigate('ListOrder'),
+                  },
+                ]);
               }}>
               <Text
                 style={{
