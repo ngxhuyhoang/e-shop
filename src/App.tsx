@@ -1,12 +1,15 @@
 import { NavigationContainer } from '@react-navigation/native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DevSettings, NativeModules, Platform } from 'react-native';
 import KeyboardManager from 'react-native-keyboard-manager';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AppStack from './navigators/app.stack';
 import FlashMessage from 'react-native-flash-message';
+import { ProductContext } from './features/list-product/list-product.screen';
 
 const App = () => {
+  const [productCart, setProductCart] = useState([]);
+
   useEffect(() => {
     if (__DEV__) {
       DevSettings.addMenuItem('Bật debug', () => {
@@ -14,6 +17,10 @@ const App = () => {
       });
     }
   }, []);
+
+  const onAddToCart = product => {
+    setProductCart([...productCart, product]);
+  };
 
   if (Platform.OS === 'ios') {
     KeyboardManager.setEnable(true);
@@ -38,7 +45,9 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <AppStack />
+        <ProductContext.Provider value={{ productCart, onAddToCart }}>
+          <AppStack />
+        </ProductContext.Provider>
       </NavigationContainer>
       <FlashMessage position="top" floating />
     </SafeAreaProvider>
