@@ -30,13 +30,17 @@ const ProductPage = () => {
     }
   };
 
+  const handleProductPress = product => {
+    navigation.navigate('DetailProduct', { product });
+  };
+
   // const screenWidth = Dimensions.get('window').width;
 
   const renderItem: ListRenderItem<any> = ({ item }) => {
     return (
       <TouchableOpacity
         style={styles.productContainer}
-        onPress={() => navigation.navigate('DetailProduct')}>
+        onPress={() => handleProductPress(item)}>
         <Image
           source={{ uri: item.image }}
           style={{ width: '100%', height: 200 }}
