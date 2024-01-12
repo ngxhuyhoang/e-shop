@@ -1,14 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState, useContext } from 'react';
-import {
-  Alert,
-  FlatList,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, { useContext } from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { ShoppingCart } from './ShoppingCart';
 import { ProductContext } from '../list-product/list-product.screen';
@@ -25,9 +17,6 @@ export const Item = props => {
         borderRadius: 8,
         padding: 16,
       }}>
-      <Text style={{ paddingLeft: 10, fontWeight: 'bold', marginBottom: 8 }}>
-        #{props.id}
-      </Text>
       <View style={{ flexDirection: 'row' }}>
         <Image source={{ uri: props.image }} style={styles.image} />
         <View style={{ flex: 1 }}>
@@ -38,7 +27,7 @@ export const Item = props => {
               fontWeight: 'bold',
               fontSize: 16,
             }}>
-            {props.name}
+            {props.id}
           </Text>
           <View style={{ flexDirection: 'row', flex: 1 }}>
             <Text style={{ color: 'grey', paddingLeft: 10 }}>
