@@ -40,70 +40,105 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post('https://eshop-api.ngxhuyhoang.com/auth/login', {
-        email: email,
-        password: password,
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await axios.post(
+        'https://eshop-api.ngxhuyhoang.com/auth/login',
+        {
+          email: email,
+          password: password,
         },
-      });
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
       console.log(response.data);
       await AsyncStorage.setItem('userToken', response.data.data.accessToken)
       navigate('MainStack');
     } catch (error) {
       console.error(error);
-      Alert.alert('Lỗi', 'Email hoặc Password không chính xác!')
+      Alert.alert('Lỗi', 'Email hoặc Password không chính xác!');
     }
-
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'stretch', paddingHorizontal: 16, backgroundColor: '#CFD8EF', }}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'stretch',
+        paddingHorizontal: 16,
+        backgroundColor: '#CFD8EF',
+      }}>
       <KeyboardAvoidingView>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={{ 
-            borderWidth: 0.3,
-            borderRadius: 15,
-            paddingVertical: 10, 
-            paddingHorizontal: 10, 
-            //backgroundColor: '#fff',
+          <View
+            style={{
+              borderWidth: 0.3,
+              borderRadius: 15,
+              paddingVertical: 10,
+              paddingHorizontal: 10,
+              //backgroundColor: '#fff',
             }}>
-            <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center', marginBottom: 50 }}>Đăng nhập</Text>
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: 'bold',
+                textAlign: 'center',
+                marginBottom: 50,
+              }}>
+              Đăng nhập
+            </Text>
             <TextInput
               placeholder="Email"
               value={email}
-              onChangeText={(text) => setEmail(text)}
-              style={{ borderWidth: 1, paddingHorizontal: 10, borderRadius: 10, marginBottom: 10 }}
+              onChangeText={text => setEmail(text)}
+              style={{
+                borderWidth: 1,
+                paddingHorizontal: 10,
+                borderRadius: 10,
+                marginBottom: 10,
+              }}
             />
             <TextInput
               placeholder="Password"
               value={password}
-              onChangeText={(text) => setPassword(text)}
+              onChangeText={text => setPassword(text)}
               autoCorrect={false}
               secureTextEntry={true}
-              style={{ borderWidth: 1, paddingHorizontal: 10, borderRadius: 10, marginBottom: 20 }}
+              style={{
+                borderWidth: 1,
+                paddingHorizontal: 10,
+                borderRadius: 10,
+                marginBottom: 20,
+              }}
             />
             <View>
               <TouchableOpacity
-              style={{
-                backgroundColor: '#0c66e4',
-                padding: 10,
-                borderRadius: 10,
-              }}
-              onPress={handleLogin}>
-                <Text style={{textAlign: 'center', fontSize: 20}}>Đăng nhập</Text>
+                style={{
+                  backgroundColor: '#0c66e4',
+                  padding: 10,
+                  borderRadius: 10,
+                }}
+                onPress={handleLogin}>
+                <Text style={{ textAlign: 'center', fontSize: 20 }}>
+                  Đăng nhập
+                </Text>
               </TouchableOpacity>
             </View>
 
             <View style={{ marginTop: 20 }}>
-              <Text style={{ textAlign: 'right' }}>Bạn chưa có tài khoản?
-                <Text style={{ color: '#0c66e4' }}
+              <Text style={{ textAlign: 'right' }}>
+                Bạn chưa có tài khoản?
+                <Text
+                  style={{ color: '#0c66e4' }}
                   onPress={() => {
                     navigate('Register');
-                  }}> Đăng ký</Text>
+                  }}>
+                  {' '}
+                  Đăng ký
+                </Text>
               </Text>
-
             </View>
           </View>
         </TouchableWithoutFeedback>

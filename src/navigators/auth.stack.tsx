@@ -15,7 +15,6 @@ const AuthStack = () => {
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="InfoUser" component={InfoUser} />
     </Stack.Navigator>
-    
   );
 };
 

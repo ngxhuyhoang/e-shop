@@ -1,9 +1,9 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React, { useEffect } from 'react';
-import AuthStack from './auth.stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect, useState } from 'react';
 import MainStack from './main.stack';
+import AuthStack from './auth.stack';
+import { useNavigation } from '@react-navigation/native';
 
 const Stack = createNativeStackNavigator();
 const AppStack = () => {
