@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {
+  Alert,
   Button,
   FlatList,
   Modal,
@@ -12,6 +13,7 @@ import {
 import { Item, data } from './shopping-cart.screen';
 import NavBar from '../nav-bar/nav-bar';
 import Icon from 'react-native-vector-icons/AntDesign';
+import NotificationPopup from 'react-native-push-notification-popup';
 
 const userInfo = {
   name: 'abc',
@@ -79,6 +81,7 @@ export const ShoppingCart = () => {
     </View>
   );
 };
+
 export const Payment = ({ isVisible, onClose }) => {
   const totalPrice = data.reduce((accumulator, currentValue) => {
     return accumulator + currentValue.totalAmount;
@@ -106,7 +109,7 @@ export const Payment = ({ isVisible, onClose }) => {
             borderBlockColor: '#00000090',
             borderTopLeftRadius: 16,
             borderTopRightRadius: 16,
-            height: '56%',
+            height: '60%',
           }}>
           <Pressable onPress={() => onClose()}>
             <Icon
@@ -238,7 +241,9 @@ export const Payment = ({ isVisible, onClose }) => {
           <View style={{ paddingLeft: 16, paddingTop: 15 }}>
             <View style={{ flexDirection: 'row' }}>
               <Text style={{ fontSize: 15 }}>Tổng tiền sản phẩm:</Text>
-              <Text style={{ marginLeft: '50%', fontSize: 15 }}>{'0'}</Text>
+              <Text style={{ marginLeft: '50%', fontSize: 15 }}>
+                {totalPrice}
+              </Text>
             </View>
             <View style={{ flexDirection: 'row' }}>
               <Text style={{ fontSize: 15 }}>Mã giảm giá:</Text>
@@ -259,6 +264,30 @@ export const Payment = ({ isVisible, onClose }) => {
                 {totalPrice}
               </Text>
             </View>
+          </View>
+          <View style={{ marginTop: 10 }}>
+            <TouchableOpacity
+              onPress={() => {
+                Alert.alert('', 'Đặt hàng thành công', [
+                  {
+                    text: 'OK',
+                    onPress: () => navigation.navigate('ListOrder'),
+                  },
+                ]);
+              }}>
+              <Text
+                style={{
+                  backgroundColor: 'red',
+                  height: '100%',
+                  textAlign: 'center',
+                  paddingVertical: 6,
+                  fontSize: 20,
+                  fontWeight: 'bold',
+                  color: 'white',
+                }}>
+                Đặt hàng
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
