@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -8,12 +8,19 @@ import {
   Image,
   TouchableOpacity,
   ListRenderItem,
+  Alert,
 } from 'react-native';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
+//Tạo Context
+export const ProductContext = createContext([]);
 
+// Khởi tạo biến productPage
 const ProductPage = () => {
   const navigation = useNavigation<any>();
+
+  const cartContext = useContext(ProductContext);
+
   const [products, setProducts] = useState([]);
   useEffect(() => {
     handleGetListProduct();
@@ -62,7 +69,12 @@ const ProductPage = () => {
                 {item.price} $
               </Text>
             </View>
-            <TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                Alert.alert('Thêm sản phẩm thành công');
+                cartContext.onAddToCart(item);
+              }}>
               <Image
                 source={require('../../../pics/cart.png')}
                 style={styles.buyItemIcon}
@@ -107,32 +119,32 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingBottom: 16,
   },
-  productImage: {
-    width: '100%',
-    height: 150,
-    resizeMode: 'cover',
-  },
+  // productImage: {
+  //   width: '100%',
+  //   height: 150,
+  //   resizeMode: 'cover',
+  // },
   productName: {
     fontSize: 16,
     fontWeight: 'bold',
     marginVertical: 8,
   },
 
-  productPrice: {
-    fontSize: 14,
-    color: 'red',
-    alignSelf: 'flex-start',
-  },
-  productInfor: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 8,
-  },
-  buyItem: {
-    marginHorizontal: 8,
-    tintColor: 'red',
-  },
+  // productPrice: {
+  //   fontSize: 14,
+  //   color: 'red',
+  //   alignSelf: 'flex-start',
+  // },
+  // productInfor: {
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-between',
+  //   alignItems: 'center',
+  //   paddingHorizontal: 8,
+  // },
+  // buyItem: {
+  //   marginHorizontal: 8,
+  //   tintColor: 'red',
+  // },
   buyItemIcon: {
     marginHorizontal: 8,
     width: 24,
