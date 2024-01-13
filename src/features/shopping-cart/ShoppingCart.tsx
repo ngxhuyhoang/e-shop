@@ -27,14 +27,31 @@ export const ShoppingCart = () => {
 
   const [modalVisible, setModalVisible] = useState(false);
 
+  interface itemProps {
+    category: string;
+    createdAt: string;
+    deletedDate: string;
+    description: string;
+    id: string;
+    image: string;
+    price: Number;
+    title: string;
+    updatedAt: string;
+    quantity: Number;
+  }
   const renderItem = ({ item }: any) => (
     <Item
+      category={item.category}
+      createdAt={item.createdAt}
+      deletedDate={item.deletedDate}
+      description={item.description}
       id={item.id}
       image={item.image}
-      name={item.name}
-      price={item.price}
-      quantity={item.quantity}
-      totalAmount={item.totalAmount}
+      price={Number(item.price)}
+      title={item.title}
+      totalPrice={Number(item.price) * Number(item.quantity)}
+      updatedAt={item.updatedAt}
+      quantity={Number(item.quantity)}
     />
   );
 

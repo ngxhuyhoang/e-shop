@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { DevSettings, NativeModules, Platform } from 'react-native';
+import { Alert, DevSettings, NativeModules, Platform } from 'react-native';
 import KeyboardManager from 'react-native-keyboard-manager';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AppStack from './navigators/app.stack';
@@ -18,8 +18,50 @@ const App = () => {
     }
   }, []);
 
+  // Hàm thêm sản phẩm vào giỏ hàng
   const onAddToCart = product => {
+    // const productQuantity = { quantity: 1 };
+    product = Object.assign(
+      { quantity: '1', totalPrice: product.price },
+      product,
+    );
+    console.log(product);
     setProductCart([...productCart, product]);
+  };
+
+  // Hàm tăng số lượng sản phẩm trong giỏ hàng
+  const onIncreaseProduct = props => {
+    setProductCart([...productCart]);
+    const product = productCart.map(item => {
+      if (item.id === props.id) {
+        return {
+          ...item,
+          quantity: String(Number(item.quantity) + 1),
+        };
+      }
+      return item;
+    });
+    setProductCart([...product]);
+  };
+  // Hàm giảm số lượng sản phẩm trong giỏ hàng
+  const onDecreaseProduct = props => {
+    setProductCart([...productCart]);
+    const product = productCart
+      .map(item => {
+        if (item.id === props.id) {
+          if (item.quantity > 0) {
+            return {
+              ...item,
+              quantity: String(Number(item.quantity) - 1),
+            };
+          } else {
+            return null;
+          }
+        }
+        return item;
+      })
+      .filter(item => item !== null);
+    setProductCart([...product]);
   };
 
   if (Platform.OS === 'ios') {
@@ -45,7 +87,13 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <ProductContext.Provider value={{ productCart, onAddToCart }}>
+        <ProductContext.Provider
+          value={{
+            productCart,
+            onAddToCart,
+            onDecreaseProduct,
+            onIncreaseProduct,
+          }}>
           <AppStack />
         </ProductContext.Provider>
       </NavigationContainer>

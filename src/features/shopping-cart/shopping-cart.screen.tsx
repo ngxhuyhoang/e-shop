@@ -26,21 +26,23 @@ export const Item = props => {
               paddingTop: 10,
               fontWeight: 'bold',
               fontSize: 16,
-            }}>
-            {props.id}
+            }}
+            numberOfLines={2}>
+            {props.title}
           </Text>
           <View style={{ flexDirection: 'row', flex: 1 }}>
             <Text style={{ color: 'grey', paddingLeft: 10 }}>
               Số lượng:
               <TouchableOpacity
-                onPress={() => productCart.onDecrease()}
+                onPress={() => productCart.onDecreaseProduct(props)}
                 style={{ flex: 1, marginLeft: 20 }}>
                 <Icon name="leftsquareo" size={15} />
               </TouchableOpacity>
               <View>
                 <Text>{props.quantity}</Text>
               </View>
-              <TouchableOpacity onPress={() => productCart.onIncrease()}>
+              <TouchableOpacity
+                onPress={() => productCart.onIncreaseProduct(props)}>
                 <Icon name="rightsquareo" size={15} />
               </TouchableOpacity>
             </Text>
@@ -57,7 +59,7 @@ export const Item = props => {
           </View>
           <Text style={{ textAlign: 'right', paddingRight: 20, color: 'red' }}>
             <Text style={{ color: 'black' }}>Tổng thanh toán:</Text>{' '}
-            {props.totalAmount}
+            {props.totalPrice}
           </Text>
         </View>
       </View>
