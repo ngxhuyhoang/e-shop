@@ -24,7 +24,12 @@ const ProductDetailPage = ({ route }) => {
       <ScrollView style={{ flex: 1 }}>
         <Image
           source={{ uri: product.image }}
-          style={{ width: '100%', height: 300 }}
+          style={{
+            width: '100%',
+            height: 300,
+            resizeMode: 'contain',
+            backgroundColor: 'white',
+          }}
         />
         <View
           style={{
