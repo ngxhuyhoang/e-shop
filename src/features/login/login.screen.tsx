@@ -53,7 +53,7 @@ const Login = () => {
         },
       );
       console.log(response.data);
-      await AsyncStorage.setItem('userToken', response.data.data.accessToken)
+      await AsyncStorage.setItem('userToken', response.data.data.accessToken);
       navigate('MainStack');
     } catch (error) {
       console.error(error);

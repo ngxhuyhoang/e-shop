@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
   View,

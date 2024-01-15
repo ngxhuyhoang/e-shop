@@ -58,17 +58,8 @@ export const ShoppingCart = () => {
   return (
     <View style={{ flex: 1, backgroundColor: '#DDDDDD' }}>
       {/* <Button onPress={onPress} title="List Order" /> */}
-      <NavBar title="" />
-      <Text
-        style={{
-          backgroundColor: 'white',
-          paddingLeft: 30,
-          paddingBottom: 30,
-          paddingTop: 20,
-          fontSize: 25,
-        }}>
-        Giỏ hàng
-      </Text>
+      <NavBar title="Giỏ hàng" />
+
       <FlatList
         data={productCart.productCart}
         renderItem={renderItem}
