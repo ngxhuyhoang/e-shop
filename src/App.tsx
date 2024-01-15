@@ -1,11 +1,11 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { DevSettings, NativeModules, Platform } from 'react-native';
+import FlashMessage from 'react-native-flash-message';
 import KeyboardManager from 'react-native-keyboard-manager';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import AppStack from './navigators/app.stack';
-import FlashMessage from 'react-native-flash-message';
 import { ProductContext } from './features/list-product/list-product.screen';
+import AppStack from './navigators/app.stack';
 
 const App = () => {
   const [productCart, setProductCart] = useState([]);

@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
   View,
@@ -12,6 +11,9 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
+import Cart from 'react-native-vector-icons/Feather';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import ShoppingCart from 'react-native-vector-icons/Feather';
 //Tạo Context
 export const ProductContext = createContext([]);
 
@@ -75,9 +77,10 @@ const ProductPage = () => {
                 cartContext.onHandleItem(item);
                 Alert.alert('Thêm sản phẩm thành công');
               }}>
-              <Image
-                source={require('../../../pics/cart.png')}
-                style={styles.buyItemIcon}
+              <ShoppingCart
+                name="shopping-cart"
+                size={20}
+                style={{ marginHorizontal: 8 }}
               />
             </TouchableOpacity>
           </View>
@@ -88,9 +91,56 @@ const ProductPage = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 16 }}>
-        Danh sách sản phẩm
-      </Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}>
+        <View style={{ flex: 3 }}>
+          <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 16 }}>
+            Danh sách sản phẩm
+          </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            backgroundColor: 'Gray',
+            flex: 1,
+            marginBottom: 16,
+          }}>
+          <View
+            style={{
+              backgroundColor: 'gray',
+              borderRadius: 16,
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: 32,
+              height: 32,
+            }}>
+            <TouchableOpacity>
+              <Cart name="shopping-cart" size={20} color="white" />
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              backgroundColor: 'gray',
+              borderRadius: 16,
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: 32,
+              height: 32,
+            }}>
+            <TouchableOpacity>
+              <Ionicons
+                name="chatbubble-ellipses-outline"
+                size={20}
+                color="white"
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
       <FlatList
         data={products}
         numColumns={2}
