@@ -11,27 +11,35 @@ const AppStack = () => {
   const { navigate } = useNavigation<any>();
 
   useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const token = await AsyncStorage.getItem('userToken');
+        console.log(token);
+        if (token) {
+          navigate('MainStack');
+        } else {
+          navigate('AuthStack');
+        }
+      } catch (error) {
+        console.error('Error checking login status:', error);
+      }
+    };
+
     checkLoginStatus();
   }, [navigate]);
 
-  const checkLoginStatus = async () => {
-    try {
-      const token = await AsyncStorage.getItem('userToken');
-      if (token) {
-        navigate('MainStack');
-      } else {
-        navigate('AuthStack');
-      }
-    } catch (error) {
-      console.error('Error checking login status:', error);
-    }
-  };
+  const isLogin = false;
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {isLogin ? (
+        <Stack.Screen name="AuthStack" component={AuthStack} />
+      ) : (
+        <Stack.Screen name="MainStack" component={MainStack} />
+      )}
       <Stack.Screen name="AuthStack" component={AuthStack} />
-      <Stack.Screen name="MainStack" component={MainStack} />
     </Stack.Navigator>
   );
 };
+
 export default AppStack;

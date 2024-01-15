@@ -15,19 +15,18 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import Icon1 from 'react-native-vector-icons/Ionicons';
 import InfoUser from './profile-infoUser.screen';
 import ListOrder from '../list-order/list-order.screen';
-import { data } from '../shopping-cart/shopping-cart.screen';
 
 const Profile = () => {
   const { navigate } = useNavigation<any>();
   const isFocused = useIsFocused();
   interface UserInfo {
     displayName: string;
-    email: string;
+    avatar: string;
   }
 
   const [userInfo, setUserInfo] = useState<UserInfo>({
     displayName: '',
-    email: '',
+    avatar: '',
   });
   const fetchUserInfo = async () => {
     try {
@@ -50,7 +49,6 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    console.log('API Response:', data);
     fetchUserInfo();
   }, [isFocused]);
 
@@ -61,21 +59,14 @@ const Profile = () => {
           source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
           style={{ width: 100, height: 100, borderRadius: 50, marginTop: 70 }}
         />
-        <Text
-          style={{
-            marginTop: 20,
-            fontSize: 20,
-          }}>
-          Xin chào: {userInfo.displayName}
-        </Text>
-        <Text
-          style={{
-            marginTop: 20,
-            fontSize: 20,
-            backgroundColor: '#ff0',
-          }}>
-          {userInfo.email}
-        </Text>
+        <Text style={{
+          marginTop: 20, 
+          fontSize: 20, 
+          }}>Xin chào: {userInfo.displayName}</Text>
+          <Text style={{
+          marginTop: 20, 
+          fontSize: 20, 
+          }}>{userInfo.avatar}</Text>
       </View>
 
       <View
@@ -184,6 +175,21 @@ const Profile = () => {
               Trung tâm trợ giúp
             </Text>
             <Icon name="right" size={18} style={{ marginTop: 5 }} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+        onPress={() => {
+          Alert.alert('Thông báo', 'Chức năng đang phát triển, thử lại sau!')
+        }}>
+          <View style={{
+            marginBottom: 25,
+            borderBottomWidth: 0.5,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+            <Icon1 name='chatbubble-ellipses-outline' size={22} style={{ marginTop: 5 }} />
+            <Text style={{ fontSize: 20, marginBottom: 5 }}>Chat với nhân viên hỗ trợ</Text>
+            <Icon name='right' size={18} style={{ marginTop: 5 }} />
           </View>
         </TouchableOpacity>
       </View>

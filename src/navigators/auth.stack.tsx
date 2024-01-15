@@ -1,3 +1,4 @@
+
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import Login from '../features/login/login.screen';
@@ -15,7 +16,8 @@ const AuthStack = () => {
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="InfoUser" component={InfoUser} />
     </Stack.Navigator>
-  );
+    );
+  
 };
 
 export default AuthStack;
