@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   KeyboardAvoidingView,
@@ -10,18 +10,18 @@ import {
   View,
   TextInput,
   Keyboard,
-  Button,
+  BackHandler,
   Alert,
 } from 'react-native';
 import MainStack from '../../navigators/main.stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = () => {
-  const { navigate } = useNavigation<any>();
+  const { navigate, navigation } = useNavigation<any>();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [login, setLogin] = useState('false');
+  const [login, setLogin] = useState(false);
 
   const validateEmail = (email: string) => {
     const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
@@ -55,10 +55,45 @@ const Login = () => {
       console.log(response.data);
       await AsyncStorage.setItem('userToken', response.data.data.accessToken)
       navigate('MainStack');
+      
     } catch (error) {
       console.error(error);
       Alert.alert('Lỗi', 'Email hoặc Password không chính xác!');
     }
+    
+    
+  };
+  
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleBackPress
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
+  const handleBackPress = () => {
+    if (!login) {
+      BackHandler.exitApp();
+      return true;
+    }
+    Alert.alert('Thông báo', 'Nhấn lại để thoát', [
+      {
+        text: 'Hủy',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {
+        text: 'Thoát',
+        onPress: () => {
+          BackHandler.exitApp();
+        },
+      },
+    ]);
+
+    setLogin(false);
+    return true; 
   };
 
   return (

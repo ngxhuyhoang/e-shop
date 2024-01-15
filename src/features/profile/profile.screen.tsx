@@ -14,17 +14,16 @@ const Profile = () => {
   const isFocused = useIsFocused();
   interface UserInfo {
     displayName: string;
-    email: string;
+    avatar: string;
   }
 
   const [userInfo, setUserInfo] = useState<UserInfo>({
     displayName: '',
-    email: '',
+    avatar: '',
   });
   const fetchUserInfo = async () => {
     try {
       const accessToken = await AsyncStorage.getItem('userToken');
-      console.log('Access Token:', accessToken);
       const response = await axios.get('https://eshop-api.ngxhuyhoang.com/profile/me', {
         headers: {
           'Authorization': `Bearer ${accessToken}`
@@ -40,7 +39,6 @@ const Profile = () => {
   
 
   useEffect(() => {
-    console.log('API Response:', data);
     fetchUserInfo();
   }, [isFocused]);
 
@@ -57,8 +55,7 @@ const Profile = () => {
           <Text style={{
           marginTop: 20, 
           fontSize: 20, 
-          backgroundColor: '#ff0'
-          }}>{userInfo.email}</Text>
+          }}>{userInfo.avatar}</Text>
       </View>
       
       <View style={{
@@ -141,6 +138,21 @@ const Profile = () => {
           }}>
             <Icon1 name='help-circle-outline' size={22} style={{ marginTop: 5 }} />
             <Text style={{ fontSize: 20, marginBottom: 5 }}>Trung tâm trợ giúp</Text>
+            <Icon name='right' size={18} style={{ marginTop: 5 }} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+        onPress={() => {
+          Alert.alert('Thông báo', 'Chức năng đang phát triển, thử lại sau!')
+        }}>
+          <View style={{
+            marginBottom: 25,
+            borderBottomWidth: 0.5,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+            <Icon1 name='chatbubble-ellipses-outline' size={22} style={{ marginTop: 5 }} />
+            <Text style={{ fontSize: 20, marginBottom: 5 }}>Chat với nhân viên hỗ trợ</Text>
             <Icon name='right' size={18} style={{ marginTop: 5 }} />
           </View>
         </TouchableOpacity>

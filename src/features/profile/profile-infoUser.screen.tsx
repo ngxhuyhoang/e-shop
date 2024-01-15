@@ -7,6 +7,7 @@ import { data } from '../shopping-cart/shopping-cart.screen';
 
 interface UserInfo {
     displayName: string;
+    avatar: string;
     
 }
 
@@ -15,10 +16,11 @@ const InfoUser: React.FC = () => {
 
     const [editableInfo, setEditableInfo] = useState<UserInfo>({
         displayName: '',
+        avatar: '',
     });
 
     const [displayNameInput, setDisplayNameInput] = useState('');
-
+    const [avatarInput, setAvatarInput] = useState('');
     
 
     const updateUserInfo = async () => {
@@ -26,6 +28,7 @@ const InfoUser: React.FC = () => {
             const accessToken = await AsyncStorage.getItem('userToken');
             await axios.patch('https://eshop-api.ngxhuyhoang.com/profile/me', {
                 displayName: displayNameInput,
+                avatar: avatarInput,
             }, {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
@@ -53,6 +56,12 @@ const InfoUser: React.FC = () => {
                     style={styles.input}
                     value={displayNameInput}
                     onChangeText={(text) => setDisplayNameInput(text)}
+                />
+                <TextInput
+                    placeholder='Avatar'
+                    style={styles.input}
+                    value={avatarInput}
+                    onChangeText={(text) => setAvatarInput(text)}
                 />
                 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
