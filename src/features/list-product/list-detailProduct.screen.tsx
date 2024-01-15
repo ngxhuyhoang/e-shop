@@ -36,8 +36,22 @@ const ProductDetailPage = ({ route }) => {
             backgroundColor: 'white',
             marginTop: 12,
           }}>
-          <Text style={styles.productName}>{product.title}</Text>
+          <Text style={styles.productName} numberOfLines={2}>
+            {product.title}
+          </Text>
           <Text style={styles.productPrice}>{product.price} $</Text>
+          <View style={{ height: 40, flexDirection: 'row' }}>
+            <Image
+              source={require('../../../pics/rating2.png')}
+              style={{
+                width: 60,
+                height: 42,
+                tintColor: 'orange',
+                marginHorizontal: 8,
+              }}
+            />
+            <Text style={{ alignItems: 'center', marginTop: 12 }}>5</Text>
+          </View>
         </View>
         <View style={{ backgroundColor: 'white', marginTop: 12 }}>
           <View
