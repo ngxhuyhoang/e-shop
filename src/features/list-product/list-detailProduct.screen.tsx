@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import NavBar from '../nav-bar/nav-bar';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const ProductDetailPage = ({ route }) => {
   const { product } = route.params;
@@ -67,6 +68,54 @@ const ProductDetailPage = ({ route }) => {
           </View>
         </View>
       </ScrollView>
+      <View style={styles.tabBar}>
+        <TouchableOpacity
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#00b3b3',
+            height: 50,
+          }}>
+          <Ionicons
+            name="chatbubble-ellipses-outline"
+            size={24}
+            color="white"
+          />
+        </TouchableOpacity>
+        <View>
+          <Image
+            source={require('../../../pics/line.png')}
+            style={{ height: 50, width: 1 }}
+            tintColor={'#808080'}
+          />
+        </View>
+        <TouchableOpacity
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#00b3b3',
+            height: 50,
+          }}>
+          <Image
+            source={require('../../../pics/add-to-cart.png')}
+            style={{ width: 24, height: 24 }}
+            tintColor="white"
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={{
+            flex: 2,
+            height: 50,
+            backgroundColor: '#ff5c33',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Text style={{ color: 'white', fontSize: 16 }}>Mua với voucher</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -92,6 +141,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginVertical: 4,
     marginHorizontal: 4,
+  },
+  tabBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: 50,
   },
 });
 
