@@ -16,6 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 
 interface UserInfo {
   displayName: string;
+  avatar: string;
 }
 
 const InfoUser: React.FC = () => {
@@ -23,9 +24,11 @@ const InfoUser: React.FC = () => {
 
   const [editableInfo, setEditableInfo] = useState<UserInfo>({
     displayName: '',
+    avatar: '',
   });
 
   const [displayNameInput, setDisplayNameInput] = useState('');
+  const [avatarInput, setAvatarInput] = useState('');
 
   const updateUserInfo = async () => {
     try {
@@ -34,6 +37,7 @@ const InfoUser: React.FC = () => {
         'https://eshop-api.ngxhuyhoang.com/profile/me',
         {
           displayName: displayNameInput,
+          avatar: avatarInput, 
         },
         {
           headers: {
@@ -65,6 +69,12 @@ const InfoUser: React.FC = () => {
           style={styles.input}
           value={displayNameInput}
           onChangeText={text => setDisplayNameInput(text)}
+        />
+        <TextInput
+          placeholder="avatar"
+          style={styles.input}
+          value={avatarInput}
+          onChangeText={text => setAvatarInput(text)}
         />
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
