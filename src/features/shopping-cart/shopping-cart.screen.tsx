@@ -33,7 +33,14 @@ export const Item = props => {
             <Text style={{ color: 'grey', paddingLeft: 10 }}>
               Số lượng:
               <TouchableOpacity
-                onPress={() => productCart.onDecreaseProduct(props)}
+                onPress={() => {
+                  if (props.quantity <= 1) {
+                    // Goi ham xoa
+                    productCart.onRemoveProduct(props);
+                  } else {
+                    productCart.onDecreaseProduct(props);
+                  }
+                }}
                 style={{ flex: 1, marginLeft: 20 }}>
                 <Icon name="leftsquareo" size={15} />
               </TouchableOpacity>

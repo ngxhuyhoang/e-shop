@@ -33,13 +33,13 @@ const ProductPage = () => {
       const { data: responseData } = await axios.get(
         'https://eshop-api.ngxhuyhoang.com/product/list',
       );
-      setProducts(responseData.data);
+      setProducts(responseData.data.map(x => ({ ...x, quantity: 1 })));
     } catch (e) {
       console.log(e);
     }
   };
 
-  const handleProductPress = product => {
+  const handleProductPress = (product: any) => {
     navigation.navigate('DetailProduct', { product });
   };
 
@@ -74,8 +74,8 @@ const ProductPage = () => {
 
             <TouchableOpacity
               onPress={() => {
+                cartContext.onHandleItem(item);
                 Alert.alert('Thêm sản phẩm thành công');
-                cartContext.onAddToCart(item);
               }}>
               <ShoppingCart
                 name="shopping-cart"
