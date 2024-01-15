@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Alert, DevSettings, NativeModules, Platform } from 'react-native';
+import { DevSettings, NativeModules, Platform } from 'react-native';
 import KeyboardManager from 'react-native-keyboard-manager';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AppStack from './navigators/app.stack';
@@ -18,19 +18,54 @@ const App = () => {
     }
   }, []);
 
-  // Hàm thêm sản phẩm vào giỏ hàng
-  const onAddToCart = product => {
-    // const productQuantity = { quantity: 1 };
-    product = Object.assign(
-      { quantity: '1', totalPrice: product.price },
-      product,
-    );
-    console.log(product);
-    setProductCart([...productCart, product]);
+  //Hàm xử lý tác vụ thêm sản phẩm
+  const onHandleItem = product => {
+    // product = Object.assign(
+    //   { quantity: 1, totalPrice: product.price },
+    //   product,
+    // );
+
+    const existedProduct = productCart.find(x => x.id === product.id);
+
+    console.log(existedProduct);
+
+    if (existedProduct) {
+      // Da co
+      console.log('Da co');
+      setProductCart(prevState => {
+        const newArr = [...prevState];
+        const index = newArr.findIndex(x => x.id === product.id);
+        newArr[index].quantity += 1;
+        return newArr;
+      });
+    } else {
+      // Chua co
+      setProductCart([...productCart, product]);
+    }
+
+    // const currentProduct = {
+    //   ...product,
+    //   quantity: Number(existedProduct?.quantity) + 1 || 1,
+    //   totalPrice: product.price,
+    // };
+
+    // const newProductIds = productCart.map(item => item.id);
+
+    // console.log(newProductIds);
+
+    // if (newProductIds.includes(currentProduct.id)) {
+    //   const newProduct = {
+    //     ...currentProduct,
+    //     quantity: Number(existedProduct?.quantity) + 1,
+    //   };
+    //   console.log(newProduct.quantity);
+    // } else {
+    //   setProductCart([...productCart, product]);
+    // }
   };
 
   // Hàm tăng số lượng sản phẩm trong giỏ hàng
-  const onIncreaseProduct = props => {
+  const onIncreaseProduct = (props: { id: any }) => {
     setProductCart([...productCart]);
     const product = productCart.map(item => {
       if (item.id === props.id) {
@@ -43,25 +78,24 @@ const App = () => {
     });
     setProductCart([...product]);
   };
+
   // Hàm giảm số lượng sản phẩm trong giỏ hàng
-  const onDecreaseProduct = props => {
-    setProductCart([...productCart]);
-    const product = productCart
-      .map(item => {
-        if (item.id === props.id) {
-          if (item.quantity > 0) {
-            return {
-              ...item,
-              quantity: String(Number(item.quantity) - 1),
-            };
-          } else {
-            return null;
-          }
-        }
-        return item;
-      })
-      .filter(item => item !== null);
-    setProductCart([...product]);
+  const onDecreaseProduct = (product: { id: string }) => {
+    setProductCart(prevState => {
+      const newArr = [...prevState];
+      const index = newArr.findIndex(x => x.id === product.id);
+      if (Number(newArr[index].quantity) > 1) {
+        newArr[index].quantity -= 1;
+      }
+      return newArr;
+    });
+  };
+  //Xóa sản phẩm
+  const onRemoveProduct = product => {
+    setProductCart(prevState => {
+      const newArr = [...prevState];
+      return newArr.filter(item => item.id !== product.id);
+    });
   };
 
   if (Platform.OS === 'ios') {
@@ -90,9 +124,10 @@ const App = () => {
         <ProductContext.Provider
           value={{
             productCart,
-            onAddToCart,
+            onHandleItem,
             onDecreaseProduct,
             onIncreaseProduct,
+            onRemoveProduct,
           }}>
           <AppStack />
         </ProductContext.Provider>

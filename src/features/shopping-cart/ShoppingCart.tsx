@@ -14,6 +14,8 @@ import { Item, data } from './shopping-cart.screen';
 import NavBar from '../nav-bar/nav-bar';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { ProductContext } from '../list-product/list-product.screen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 const userInfo = {
   name: 'abc',
   phoneNumber: '123',
@@ -101,6 +103,40 @@ export const ShoppingCart = () => {
 };
 
 export const Payment = ({ isVisible, onClose }) => {
+  const PostOrderAPI = async () => {
+    const order = {
+      fullName: 'aBCD',
+      address: 'HCM',
+      phone: '093157015',
+      email: 'tb@gmail.com',
+      productId: '1',
+      productQuantity: 3,
+      productImage:
+        'https://bobui.vn/cms/wp-content/uploads/2022/08/SAN-PHAM-T9-WEB_11-scaled.jpg',
+      totalPrice: 30,
+    };
+    const apiURL = 'https://eshop-api.ngxhuyhoang.com/order/create';
+    const accessToken = await AsyncStorage.getItem('userToken');
+    try {
+      let result = await axios.post(
+        apiURL,
+        {
+          ...order,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
+      let ord = await result; // Resolve the promise and get the response from the API
+      console.log(ord); // Log the response to the console
+    } catch (error) {
+      console.error(error); // Handle errors if any
+    }
+  };
+
   // const totalPrice = data.reduce((accumulator, currentValue) => {
   //   return accumulator + currentValue.totalAmount;
   // }, 0);
@@ -287,12 +323,13 @@ export const Payment = ({ isVisible, onClose }) => {
           <View style={{ marginTop: 10 }}>
             <TouchableOpacity
               onPress={() => {
-                Alert.alert('', 'Đặt hàng thành công', [
-                  {
-                    text: 'OK',
-                    onPress: () => navigation.navigate('ListOrder'),
-                  },
-                ]);
+                PostOrderAPI();
+                // Alert.alert('', 'Đặt hàng thành công', [
+                //   {
+                //     text: 'OK',
+                //     onPress: () => navigation.navigate('ListOrder'),
+                //   },
+                // ]);
               }}>
               <Text
                 style={{

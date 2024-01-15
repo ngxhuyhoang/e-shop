@@ -1,55 +1,55 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
-import { Button, StyleSheet } from 'react-native';
-import { FlatList, Image, Text, View } from 'react-native';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { FlatList, Image, Text, View, Button, StyleSheet } from 'react-native';
 
-const data = [
-  {
-    id: 1,
-    image:
-      'https://bobui.vn/cms/wp-content/uploads/2022/08/SAN-PHAM-T9-WEB_11-scaled.jpg',
-    name: 'Product1',
-    price: 200,
-    quantity: 1,
-    totalAmount: 200,
-  },
-  {
-    id: 2,
-    image:
-      'https://bobui.vn/cms/wp-content/uploads/2022/08/SAN-PHAM-T9-WEB_11-scaled.jpg',
-    name: 'Product2',
-    price: 100,
-    quantity: 3,
-    totalAmount: 300,
-  },
-  {
-    id: 3,
-    image:
-      'https://bobui.vn/cms/wp-content/uploads/2022/08/SAN-PHAM-T9-WEB_11-scaled.jpg',
-    name: 'Product3',
-    price: 200,
-    quantity: 2,
-    totalAmount: 400,
-  },
-  {
-    id: 4,
-    image:
-      'https://bobui.vn/cms/wp-content/uploads/2022/08/SAN-PHAM-T9-WEB_11-scaled.jpg',
-    name: 'Product4',
-    price: 50,
-    quantity: 1,
-    totalAmount: 50,
-  },
-  {
-    id: 5,
-    image:
-      'https://bobui.vn/cms/wp-content/uploads/2022/08/SAN-PHAM-T9-WEB_11-scaled.jpg',
-    name: 'Product5',
-    price: 300,
-    quantity: 1,
-    totalAmount: 300,
-  },
-];
+// const data = [
+//   {
+//     id: 1,
+//     image:
+//       'https://bobui.vn/cms/wp-content/uploads/2022/08/SAN-PHAM-T9-WEB_11-scaled.jpg',
+//     name: 'Product1',
+//     price: 200,
+//     quantity: 1,
+//     totalAmount: 200,
+//   },
+//   {
+//     id: 2,
+//     image:
+//       'https://bobui.vn/cms/wp-content/uploads/2022/08/SAN-PHAM-T9-WEB_11-scaled.jpg',
+//     name: 'Product2',
+//     price: 100,
+//     quantity: 3,
+//     totalAmount: 300,
+//   },
+//   {
+//     id: 3,
+//     image:
+//       'https://bobui.vn/cms/wp-content/uploads/2022/08/SAN-PHAM-T9-WEB_11-scaled.jpg',
+//     name: 'Product3',
+//     price: 200,
+//     quantity: 2,
+//     totalAmount: 400,
+//   },
+//   {
+//     id: 4,
+//     image:
+//       'https://bobui.vn/cms/wp-content/uploads/2022/08/SAN-PHAM-T9-WEB_11-scaled.jpg',
+//     name: 'Product4',
+//     price: 50,
+//     quantity: 1,
+//     totalAmount: 50,
+//   },
+//   {
+//     id: 5,
+//     image:
+//       'https://bobui.vn/cms/wp-content/uploads/2022/08/SAN-PHAM-T9-WEB_11-scaled.jpg',
+//     name: 'Product5',
+//     price: 300,
+//     quantity: 1,
+//     totalAmount: 300,
+//   },
+// ];
 
 interface ItemProps {
   id: number;
@@ -109,6 +109,21 @@ const Item = ({ id, image, name, price, quantity, totalAmount }: ItemProps) => (
 const ListOrder = () => {
   const navigation = useNavigation();
 
+  const [listOrder, setListOrder] = useState([]);
+  useEffect(() => {
+    HandleGetListOrder();
+  }, []);
+  const HandleGetListOrder = async () => {
+    try {
+      const { data: responseData } = await axios.get(
+        'https://eshop-api.ngxhuyhoang.com/order/list',
+      );
+      setListOrder(responseData.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const renderItem = ({ item }: any) => (
     <Item
       id={item.id}
@@ -119,7 +134,7 @@ const ListOrder = () => {
       totalAmount={item.totalAmount}
     />
   );
-
+  console.log(listOrder);
   const onPress = () => {
     navigation.navigate('ShoppingCart');
   };
@@ -139,7 +154,7 @@ const ListOrder = () => {
         Đơn hàng
       </Text>
       <FlatList
-        data={data}
+        data={listOrder}
         renderItem={renderItem}
         keyExtractor={item => item.id}
         contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 }}
