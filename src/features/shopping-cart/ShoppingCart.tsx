@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Alert,
   Button,
@@ -13,8 +13,7 @@ import {
 import { Item, data } from './shopping-cart.screen';
 import NavBar from '../nav-bar/nav-bar';
 import Icon from 'react-native-vector-icons/AntDesign';
-import NotificationPopup from 'react-native-push-notification-popup';
-
+import { ProductContext } from '../list-product/list-product.screen';
 const userInfo = {
   name: 'abc',
   phoneNumber: '123',
@@ -23,36 +22,46 @@ const userInfo = {
 };
 
 export const ShoppingCart = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
+  const productCart = useContext<any>(ProductContext);
+
   const [modalVisible, setModalVisible] = useState(false);
 
+  interface itemProps {
+    category: string;
+    createdAt: string;
+    deletedDate: string;
+    description: string;
+    id: string;
+    image: string;
+    price: Number;
+    title: string;
+    updatedAt: string;
+    quantity: Number;
+  }
   const renderItem = ({ item }: any) => (
     <Item
+      category={item.category}
+      createdAt={item.createdAt}
+      deletedDate={item.deletedDate}
+      description={item.description}
       id={item.id}
       image={item.image}
-      name={item.name}
-      price={item.price}
-      quantity={item.quantity}
-      totalAmount={item.totalAmount}
+      price={Number(item.price)}
+      title={item.title}
+      totalPrice={Number(item.price) * Number(item.quantity)}
+      updatedAt={item.updatedAt}
+      quantity={Number(item.quantity)}
     />
   );
 
   return (
     <View style={{ flex: 1, backgroundColor: '#DDDDDD' }}>
       {/* <Button onPress={onPress} title="List Order" /> */}
-      <NavBar title="" />
-      <Text
-        style={{
-          backgroundColor: 'white',
-          paddingLeft: 30,
-          paddingBottom: 30,
-          paddingTop: 20,
-          fontSize: 25,
-        }}>
-        Giỏ hàng
-      </Text>
+      <NavBar title="Giỏ hàng" />
+
       <FlatList
-        data={data}
+        data={productCart.productCart}
         renderItem={renderItem}
         keyExtractor={item => item.id}
         contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 }}
@@ -83,9 +92,10 @@ export const ShoppingCart = () => {
 };
 
 export const Payment = ({ isVisible, onClose }) => {
-  const totalPrice = data.reduce((accumulator, currentValue) => {
-    return accumulator + currentValue.totalAmount;
-  }, 0);
+  // const totalPrice = data.reduce((accumulator, currentValue) => {
+  //   return accumulator + currentValue.totalAmount;
+  // }, 0);
+  const totalPrice = 5;
 
   const navigation = useNavigation();
   return (
