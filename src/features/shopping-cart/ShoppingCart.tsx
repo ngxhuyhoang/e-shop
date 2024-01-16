@@ -175,7 +175,7 @@ export const Payment = ({ isVisible, onClose }) => {
             <TouchableOpacity
               style={{ marginLeft: '40%', marginTop: 4 }}
               onPress={() => {
-                navigation.navigate('Profile');
+                navigation.navigate('InfoUser');
                 console.log('Go to profile page');
               }}>
               <Text style={{ color: 'red', fontSize: 16 }}>Sửa</Text>
