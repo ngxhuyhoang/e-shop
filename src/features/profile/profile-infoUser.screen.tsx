@@ -12,11 +12,11 @@ import {
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-
+import Icon from 'react-native-vector-icons/AntDesign';
+import Note from 'react-native-vector-icons/MaterialCommunityIcons';
 
 interface UserInfo {
   displayName: string;
-  avatar: string;
 }
 
 const InfoUser: React.FC = () => {
@@ -24,7 +24,6 @@ const InfoUser: React.FC = () => {
 
   const [editableInfo, setEditableInfo] = useState<UserInfo>({
     displayName: '',
-    avatar: '',
   });
 
   const [displayNameInput, setDisplayNameInput] = useState('');
@@ -37,7 +36,6 @@ const InfoUser: React.FC = () => {
         'https://eshop-api.ngxhuyhoang.com/profile/me',
         {
           displayName: displayNameInput,
-          avatar: avatarInput, 
         },
         {
           headers: {
@@ -53,15 +51,113 @@ const InfoUser: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
-        style={styles.avatar}
-      />
+      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <Image
+          source={require('../../../pics/sky.jpg')}
+          style={{ width: 100, height: 100, borderRadius: 50 }}
+        />
+      </View>
 
       <View>
-        <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 25 }}>
-          Cập nhật thông tin cá nhân
-        </Text>
+        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <Text
+            style={{
+              fontSize: 20,
+              marginTop: 16,
+              fontWeight: 'bold',
+              marginBottom: 25,
+              alignItems: 'center',
+            }}>
+            Thông tin cá nhân
+          </Text>
+        </View>
+        <TouchableOpacity
+          onPress={() => {
+            navigate('InfoUser');
+          }}>
+          <View
+            style={{
+              marginBottom: 25,
+              borderBottomWidth: 0.5,
+              flexDirection: 'row',
+            }}>
+            <Icon name="user" size={18} style={{ marginTop: 5 }} />
+            <Text
+              style={{
+                fontSize: 20,
+                marginBottom: 5,
+                marginLeft: 10,
+              }}>
+              Namee
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigate('InfoUser');
+          }}>
+          <View
+            style={{
+              marginBottom: 25,
+              borderBottomWidth: 0.5,
+              flexDirection: 'row',
+            }}>
+            <Icon name="phone" size={18} style={{ marginTop: 5 }} />
+            <Text
+              style={{
+                fontSize: 20,
+                marginBottom: 5,
+                marginLeft: 10,
+              }}>
+              +84 678 910 JQK
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigate('InfoUser');
+          }}>
+          <View
+            style={{
+              marginBottom: 25,
+              borderBottomWidth: 0.5,
+              flexDirection: 'row',
+            }}>
+            <Icon name="home" size={18} style={{ marginTop: 5 }} />
+            <Text
+              style={{
+                fontSize: 20,
+                marginBottom: 5,
+                marginLeft: 10,
+              }}>
+              Trung Hòa, Cầu Giấy
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigate('InfoUser');
+          }}>
+          <View
+            style={{
+              marginBottom: 25,
+              borderBottomWidth: 0.5,
+              flexDirection: 'row',
+            }}>
+            <Note
+              name="notebook-edit-outline"
+              size={18}
+              style={{ marginTop: 15 }}
+            />
+            <TextInput
+              placeholder="Note"
+              style={{
+                fontSize: 20,
+                marginBottom: 5,
+                marginLeft: 10,
+              }}></TextInput>
+          </View>
+        </TouchableOpacity>
       </View>
       <View style={styles.editableInfo}>
         <TextInput
@@ -69,12 +165,6 @@ const InfoUser: React.FC = () => {
           style={styles.input}
           value={displayNameInput}
           onChangeText={text => setDisplayNameInput(text)}
-        />
-        <TextInput
-          placeholder="avatar"
-          style={styles.input}
-          value={avatarInput}
-          onChangeText={text => setAvatarInput(text)}
         />
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
@@ -94,15 +184,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignContent: 'center',
     paddingHorizontal: 16,
   },
-  avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    marginBottom: 20,
-  },
+
   editableInfo: {
     width: '100%',
   },

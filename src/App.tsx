@@ -19,19 +19,11 @@ const App = () => {
   }, []);
 
   //Hàm xử lý tác vụ thêm sản phẩm
-  const onHandleItem = product => {
-    // product = Object.assign(
-    //   { quantity: 1, totalPrice: product.price },
-    //   product,
-    // );
-
+  const onHandleAddItem = product => {
     const existedProduct = productCart.find(x => x.id === product.id);
-
-    console.log(existedProduct);
 
     if (existedProduct) {
       // Da co
-      console.log('Da co');
       setProductCart(prevState => {
         const newArr = [...prevState];
         const index = newArr.findIndex(x => x.id === product.id);
@@ -108,7 +100,7 @@ const App = () => {
         <ProductContext.Provider
           value={{
             productCart,
-            onHandleItem,
+            onHandleAddItem,
             onDecreaseProduct,
             onIncreaseProduct,
             onRemoveProduct,

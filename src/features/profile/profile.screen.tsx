@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Alert,
   Image,
+  ImageBackground,
   Pressable,
   Text,
   TextInput,
@@ -54,19 +55,54 @@ const Profile = () => {
 
   return (
     <View style={{ flex: 1, justifyContent: 'center' }}>
-      <View style={{ flex: 1, alignItems: 'center' }}>
-        <Image
-          source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
-          style={{ width: 100, height: 100, borderRadius: 50, marginTop: 70 }}
+      <View style={{ flex: 1 }}>
+        <ImageBackground
+          source={require('../../../pics/screenBlue.jpg')}
+          resizeMode="cover"
+          style={{ width: '100%', height: 250, position: 'absolute' }}
         />
-        <Text style={{
-          marginTop: 20, 
-          fontSize: 20, 
-          }}>Xin chào: {userInfo.displayName}</Text>
-          <Text style={{
-          marginTop: 20, 
-          fontSize: 20, 
-          }}>{userInfo.avatar}</Text>
+      </View>
+      <View style={{ marginLeft: 16, paddingTop: 40 }}>
+        <Image
+          source={require('../../../pics/sky.jpg')}
+          style={{
+            width: 100,
+            height: 100,
+            borderRadius: 50,
+            paddingHorizontal: 16,
+          }}
+        />
+        <TouchableOpacity style={{ paddingBottom: 10 }}>
+          <Icon
+            name="edit"
+            size={25}
+            style={{ marginLeft: 60, position: 'absolute' }}
+          />
+        </TouchableOpacity>
+      </View>
+
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          marginTop: 30,
+          paddingVertical: 16,
+          marginVertical: 16,
+        }}>
+        <Text
+          style={{
+            marginTop: 20,
+            fontSize: 20,
+          }}>
+          Xin chào: {userInfo.displayName}
+        </Text>
+        <Text
+          style={{
+            marginTop: 20,
+            fontSize: 20,
+          }}>
+          {userInfo.avatar}
+        </Text>
       </View>
 
       <View
@@ -82,7 +118,6 @@ const Profile = () => {
           }}>
           <View
             style={{
-              marginTop: 50,
               marginBottom: 25,
               borderBottomWidth: 0.5,
               flexDirection: 'row',
@@ -178,22 +213,29 @@ const Profile = () => {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-        onPress={() => {
-          Alert.alert('Thông báo', 'Chức năng đang phát triển, thử lại sau!')
-        }}>
-          <View style={{
-            marginBottom: 25,
-            borderBottomWidth: 0.5,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
+          onPress={() => {
+            Alert.alert('Thông báo', 'Chức năng đang phát triển, thử lại sau!');
           }}>
-            <Icon1 name='chatbubble-ellipses-outline' size={22} style={{ marginTop: 5 }} />
-            <Text style={{ fontSize: 20, marginBottom: 5 }}>Chat với nhân viên hỗ trợ</Text>
-            <Icon name='right' size={18} style={{ marginTop: 5 }} />
+          <View
+            style={{
+              marginBottom: 25,
+              borderBottomWidth: 0.5,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}>
+            <Icon1
+              name="chatbubble-ellipses-outline"
+              size={22}
+              style={{ marginTop: 5 }}
+            />
+            <Text style={{ fontSize: 20, marginBottom: 5 }}>
+              Chat với nhân viên hỗ trợ
+            </Text>
+            <Icon name="right" size={18} style={{ marginTop: 5 }} />
           </View>
         </TouchableOpacity>
       </View>
-      <View style={{ flex: 0.7 }}>
+      <View style={{ flex: 1 }}>
         <TouchableOpacity
           style={{
             borderRadius: 10,
