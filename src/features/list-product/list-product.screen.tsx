@@ -71,16 +71,10 @@ const ProductPage = () => {
                 {item.price} $
               </Text>
             </View>
-
-            <TouchableOpacity
-              onPress={() => {
-                cartContext.onHandleAddItem(item);
-                Alert.alert('Thêm sản phẩm thành công');
-              }}>
-              <ShoppingCart
-                name="shopping-cart"
-                size={20}
-                style={{ marginHorizontal: 8 }}
+            <TouchableOpacity>
+              <Image
+                source={require('../../../pics/cart.png')}
+                style={styles.buyItemIcon}
               />
             </TouchableOpacity>
           </View>
@@ -91,59 +85,9 @@ const ProductPage = () => {
 
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}>
-        <View style={{ flex: 3 }}>
-          <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 16 }}>
-            Danh sách sản phẩm
-          </Text>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            backgroundColor: 'Gray',
-            flex: 1,
-            marginBottom: 16,
-          }}>
-          <View
-            style={{
-              backgroundColor: 'gray',
-              borderRadius: 16,
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: 32,
-              height: 32,
-            }}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('ShoppingCart');
-              }}>
-              <Cart name="shopping-cart" size={20} color="white" />
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              backgroundColor: 'gray',
-              borderRadius: 16,
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: 32,
-              height: 32,
-            }}>
-            <TouchableOpacity>
-              <Ionicons
-                name="chatbubble-ellipses-outline"
-                size={20}
-                color="white"
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
+      <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 16 }}>
+        Danh sách sản phẩm
+      </Text>
       <FlatList
         data={products}
         numColumns={2}
@@ -183,26 +127,26 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
 
-  // productPrice: {
-  //   fontSize: 14,
-  //   color: 'red',
-  //   alignSelf: 'flex-start',
-  // },
-  // productInfor: {
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-between',
-  //   alignItems: 'center',
-  //   paddingHorizontal: 8,
-  // },
-  // buyItem: {
-  //   marginHorizontal: 8,
-  //   tintColor: 'red',
-  // },
-  // buyItemIcon: {
-  //   marginHorizontal: 8,
-  //   width: 24,
-  //   height: 24,
-  // },
+  productPrice: {
+    fontSize: 14,
+    color: 'red',
+    alignSelf: 'flex-start',
+  },
+  productInfor: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 8,
+  },
+  buyItem: {
+    marginHorizontal: 8,
+    tintColor: 'red',
+  },
+  buyItemIcon: {
+    marginHorizontal: 8,
+    width: 24,
+    height: 24,
+  },
 });
 
 export default ProductPage;

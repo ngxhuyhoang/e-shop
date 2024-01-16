@@ -51,18 +51,25 @@ const InfoUser: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <View style={{justifyContent: 'center', alignItems: 'center'}}>
-      <Image
-        source={require('../../../pics/sky.jpg')}
-        style={{width: 100, height: 100, borderRadius: 50}}
-      />
+      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <Image
+          source={require('../../../pics/sky.jpg')}
+          style={{ width: 100, height: 100, borderRadius: 50 }}
+        />
       </View>
 
       <View>
-        <View style={{justifyContent: 'center', alignItems: 'center'}}>
-        <Text style={{ fontSize: 20, marginTop: 16, fontWeight: 'bold', marginBottom: 25, alignItems: 'center' }}>
-          Thông tin cá nhân
-        </Text>
+        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <Text
+            style={{
+              fontSize: 20,
+              marginTop: 16,
+              fontWeight: 'bold',
+              marginBottom: 25,
+              alignItems: 'center',
+            }}>
+            Thông tin cá nhân
+          </Text>
         </View>
         <TouchableOpacity
           onPress={() => {
@@ -79,9 +86,9 @@ const InfoUser: React.FC = () => {
               style={{
                 fontSize: 20,
                 marginBottom: 5,
-                marginLeft: 10
+                marginLeft: 10,
               }}>
-               Namee
+              Namee
             </Text>
           </View>
         </TouchableOpacity>
@@ -100,9 +107,9 @@ const InfoUser: React.FC = () => {
               style={{
                 fontSize: 20,
                 marginBottom: 5,
-                marginLeft: 10
+                marginLeft: 10,
               }}>
-               +84 678 910 JQK
+              +84 678 910 JQK
             </Text>
           </View>
         </TouchableOpacity>
@@ -121,9 +128,9 @@ const InfoUser: React.FC = () => {
               style={{
                 fontSize: 20,
                 marginBottom: 5,
-                marginLeft: 10
+                marginLeft: 10,
               }}>
-               Trung Hòa, Cầu Giấy
+              Trung Hòa, Cầu Giấy
             </Text>
           </View>
         </TouchableOpacity>
@@ -137,16 +144,18 @@ const InfoUser: React.FC = () => {
               borderBottomWidth: 0.5,
               flexDirection: 'row',
             }}>
-            <Note name="notebook-edit-outline" size={18} style={{ marginTop: 15 }} />
+            <Note
+              name="notebook-edit-outline"
+              size={18}
+              style={{ marginTop: 15 }}
+            />
             <TextInput
-            placeholder='Note'
+              placeholder="Note"
               style={{
                 fontSize: 20,
                 marginBottom: 5,
-                marginLeft: 10
-              }}>
-              
-            </TextInput>
+                marginLeft: 10,
+              }}></TextInput>
           </View>
         </TouchableOpacity>
       </View>
@@ -157,7 +166,6 @@ const InfoUser: React.FC = () => {
           value={displayNameInput}
           onChangeText={text => setDisplayNameInput(text)}
         />
-        
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
           <TouchableOpacity onPress={() => goBack()}>
@@ -179,7 +187,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     paddingHorizontal: 16,
   },
-  
+
   editableInfo: {
     width: '100%',
   },

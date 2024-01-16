@@ -70,6 +70,10 @@ const App = () => {
     });
   };
 
+  const CartIcon = () => {
+    return productCart.length;
+  };
+
   if (Platform.OS === 'ios') {
     KeyboardManager.setEnable(true);
     // KeyboardManager.setEnableDebugging(false);
@@ -100,6 +104,7 @@ const App = () => {
             onDecreaseProduct,
             onIncreaseProduct,
             onRemoveProduct,
+            CartIcon,
           }}>
           <AppStack />
         </ProductContext.Provider>

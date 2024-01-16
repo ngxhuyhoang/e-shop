@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   View,
   Text,
@@ -6,17 +6,16 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import NavBar from '../nav-bar/nav-bar';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { ProductContext } from './list-product.screen';
 
 const ProductDetailPage = ({ route }) => {
   const { product } = route.params;
   const [showFullDescription, setShowFullDescription] = useState(false);
-
-  const toggleDescription = () => {
-    setShowFullDescription(!showFullDescription);
-  };
+  const cartContext = useContext(ProductContext);
 
   return (
     <View style={styles.container}>
@@ -95,6 +94,9 @@ const ProductDetailPage = ({ route }) => {
             alignItems: 'center',
             backgroundColor: '#00b3b3',
             height: 50,
+          }}
+          onPress={() => {
+            Alert.alert('Upgrade New Version to Use');
           }}>
           <Ionicons
             name="chatbubble-ellipses-outline"
@@ -116,6 +118,10 @@ const ProductDetailPage = ({ route }) => {
             alignItems: 'center',
             backgroundColor: '#00b3b3',
             height: 50,
+          }}
+          onPress={() => {
+            cartContext.onHandleItem(product);
+            Alert.alert('Thêm sản phẩm thành công');
           }}>
           <Image
             source={require('../../../pics/add-to-cart.png')}
@@ -131,6 +137,9 @@ const ProductDetailPage = ({ route }) => {
             backgroundColor: '#ff5c33',
             justifyContent: 'center',
             alignItems: 'center',
+          }}
+          onPress={() => {
+            Alert.alert('Error', 'Không có voucher');
           }}>
           <Text style={{ color: 'white', fontSize: 16 }}>Mua với voucher</Text>
         </TouchableOpacity>
