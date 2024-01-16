@@ -74,7 +74,7 @@ const ProductPage = () => {
 
             <TouchableOpacity
               onPress={() => {
-                cartContext.onHandleItem(item);
+                cartContext.onHandleAddItem(item);
                 Alert.alert('Thêm sản phẩm thành công');
               }}>
               <ShoppingCart

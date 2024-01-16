@@ -15,6 +15,9 @@ import { ProductContext } from './list-product.screen';
 const ProductDetailPage = ({ route }) => {
   const { product } = route.params;
   const [showFullDescription, setShowFullDescription] = useState(false);
+  const toggleDescription = () => {
+    setShowFullDescription(!showFullDescription);
+  };
   const cartContext = useContext(ProductContext);
 
   return (
@@ -120,7 +123,7 @@ const ProductDetailPage = ({ route }) => {
             height: 50,
           }}
           onPress={() => {
-            cartContext.onHandleItem(product);
+            cartContext.onHandleAddItem(product);
             Alert.alert('Thêm sản phẩm thành công');
           }}>
           <Image
