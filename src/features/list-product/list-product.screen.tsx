@@ -74,7 +74,7 @@ const ProductPage = () => {
 
             <TouchableOpacity
               onPress={() => {
-                cartContext.onHandleItem(item);
+                cartContext.onHandleAddItem(item);
                 Alert.alert('Thêm sản phẩm thành công');
               }}>
               <ShoppingCart
@@ -195,11 +195,11 @@ const styles = StyleSheet.create({
   //   marginHorizontal: 8,
   //   tintColor: 'red',
   // },
-  buyItemIcon: {
-    marginHorizontal: 8,
-    width: 24,
-    height: 24,
-  },
+  // buyItemIcon: {
+  //   marginHorizontal: 8,
+  //   width: 24,
+  //   height: 24,
+  // },
 });
 
 export default ProductPage;

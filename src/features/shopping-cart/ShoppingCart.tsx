@@ -1,7 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useContext, useState } from 'react';
 import {
-  Alert,
   Button,
   FlatList,
   Modal,
@@ -10,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Item, data } from './shopping-cart.screen';
+import { Item } from './shopping-cart.screen';
 import NavBar from '../nav-bar/nav-bar';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { ProductContext } from '../list-product/list-product.screen';
@@ -20,7 +19,7 @@ const userInfo = {
   name: 'abc',
   phoneNumber: '123',
   address: 'VN',
-  usernote: 'lorem ipsum',
+  email: 'tb@gmail.com',
 };
 
 export const ShoppingCart = () => {
@@ -28,19 +27,6 @@ export const ShoppingCart = () => {
   const productCart = useContext<any>(ProductContext);
 
   const [modalVisible, setModalVisible] = useState(false);
-
-  interface itemProps {
-    category: string;
-    createdAt: string;
-    deletedDate: string;
-    description: string;
-    id: string;
-    image: string;
-    price: Number;
-    title: string;
-    updatedAt: string;
-    quantity: Number;
-  }
   const renderItem = ({ item }: any) => (
     <Item
       category={item.category}
@@ -94,44 +80,64 @@ export const ShoppingCart = () => {
 };
 
 export const Payment = ({ isVisible, onClose }) => {
+  const productCart = useContext<any>(ProductContext);
+  const data = productCart.productCart;
+  // console.log(data);
+
   const PostOrderAPI = async () => {
     const order = {
-      fullName: 'aBCD',
-      address: 'HCM',
-      phone: '093157015',
-      email: 'tb@gmail.com',
-      productId: '1',
-      productQuantity: 3,
-      productImage:
-        'https://bobui.vn/cms/wp-content/uploads/2022/08/SAN-PHAM-T9-WEB_11-scaled.jpg',
-      totalPrice: 30,
+      productOrder: data.map(
+        (p: {
+          title: any;
+          price: any;
+          image: any;
+          quantity: any;
+          id: any;
+        }) => ({
+          name: p.title,
+          price: p.price,
+          image: p.image,
+          quantity: p.quantity,
+          totalPrice: p.price * p.quantity,
+          productId: p.id,
+        }),
+      ),
+      fullName: userInfo.name,
+      address: userInfo.address,
+      phone: userInfo.phoneNumber,
+      email: userInfo.email,
+      totalPrice: data.reduce(
+        (sum: number, item: { totalPrice: string }) =>
+          sum + parseFloat(item.price * item.quantity),
+        0,
+      ),
     };
-    const apiURL = 'https://eshop-api.ngxhuyhoang.com/order/create';
-    const accessToken = await AsyncStorage.getItem('userToken');
-    try {
-      let result = await axios.post(
-        apiURL,
-        {
-          ...order,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
-        },
-      );
-      let ord = await result; // Resolve the promise and get the response from the API
-      console.log(ord); // Log the response to the console
-    } catch (error) {
-      console.error(error); // Handle errors if any
-    }
+    console.log(order);
+    // const apiURL = 'https://eshop-api.ngxhuyhoang.com/order/create';
+    // const accessToken = await AsyncStorage.getItem('userToken');
+    // try {
+    //   let result = await axios.post(
+    //     apiURL,
+    //     {
+    //       ...order,
+    //     },
+    //     {
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //         Authorization: `Bearer ${accessToken}`,
+    //       },
+    //     },
+    //   );
+    //   let ord = await result; // Resolve the promise and get the response from the API
+    //   console.log(ord); // Log the response to the console
+    // } catch (error) {
+    //   console.error(error); // Handle errors if any
+    // }
   };
 
-  // const totalPrice = data.reduce((accumulator, currentValue) => {
-  //   return accumulator + currentValue.totalAmount;
-  // }, 0);
-  const totalPrice = 5;
+  const totalAmount = data.reduce((accumulator, currentValue) => {
+    return accumulator + currentValue.totalPrice;
+  }, 0);
 
   const navigation = useNavigation();
   return (
@@ -221,14 +227,14 @@ export const Payment = ({ isVisible, onClose }) => {
               </Text>
             </Text>
             <Text>
-              Ghi chú:{'  '}
+              Email:{'  '}
               <Text
                 style={{
                   fontWeight: 'bold',
                   paddingLeft: 200,
                   marginLeft: 200,
                 }}>
-                {userInfo.usernote}
+                {userInfo.email}
               </Text>
             </Text>
           </View>
@@ -288,7 +294,7 @@ export const Payment = ({ isVisible, onClose }) => {
             <View style={{ flexDirection: 'row' }}>
               <Text style={{ fontSize: 15 }}>Tổng tiền sản phẩm:</Text>
               <Text style={{ marginLeft: '50%', fontSize: 15 }}>
-                {totalPrice}
+                {totalAmount}
               </Text>
             </View>
             <View style={{ flexDirection: 'row' }}>
@@ -307,7 +313,7 @@ export const Payment = ({ isVisible, onClose }) => {
                   marginLeft: '46%',
                   color: 'red',
                 }}>
-                {totalPrice}
+                {totalAmount}
               </Text>
             </View>
           </View>

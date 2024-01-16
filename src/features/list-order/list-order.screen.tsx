@@ -1,66 +1,26 @@
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { AsyncStorage } from '@react-native-async-storage/async-storage';
 import { FlatList, Image, Text, View, Button, StyleSheet } from 'react-native';
-
-// const data = [
-//   {
-//     id: 1,
-//     image:
-//       'https://bobui.vn/cms/wp-content/uploads/2022/08/SAN-PHAM-T9-WEB_11-scaled.jpg',
-//     name: 'Product1',
-//     price: 200,
-//     quantity: 1,
-//     totalAmount: 200,
-//   },
-//   {
-//     id: 2,
-//     image:
-//       'https://bobui.vn/cms/wp-content/uploads/2022/08/SAN-PHAM-T9-WEB_11-scaled.jpg',
-//     name: 'Product2',
-//     price: 100,
-//     quantity: 3,
-//     totalAmount: 300,
-//   },
-//   {
-//     id: 3,
-//     image:
-//       'https://bobui.vn/cms/wp-content/uploads/2022/08/SAN-PHAM-T9-WEB_11-scaled.jpg',
-//     name: 'Product3',
-//     price: 200,
-//     quantity: 2,
-//     totalAmount: 400,
-//   },
-//   {
-//     id: 4,
-//     image:
-//       'https://bobui.vn/cms/wp-content/uploads/2022/08/SAN-PHAM-T9-WEB_11-scaled.jpg',
-//     name: 'Product4',
-//     price: 50,
-//     quantity: 1,
-//     totalAmount: 50,
-//   },
-//   {
-//     id: 5,
-//     image:
-//       'https://bobui.vn/cms/wp-content/uploads/2022/08/SAN-PHAM-T9-WEB_11-scaled.jpg',
-//     name: 'Product5',
-//     price: 300,
-//     quantity: 1,
-//     totalAmount: 300,
-//   },
-// ];
 
 interface ItemProps {
   id: number;
   image: string;
-  name: string;
+  title: string;
   price: number;
   quantity: number;
   totalAmount: number;
 }
 
-const Item = ({ id, image, name, price, quantity, totalAmount }: ItemProps) => (
+const Item = ({
+  id,
+  image,
+  title,
+  price,
+  quantity,
+  totalAmount,
+}: ItemProps) => (
   <View
     style={{
       flex: 1,
@@ -82,7 +42,7 @@ const Item = ({ id, image, name, price, quantity, totalAmount }: ItemProps) => (
             fontWeight: 'bold',
             fontSize: 16,
           }}>
-          {name}
+          {title}
         </Text>
         <View style={{ flexDirection: 'row', flex: 1 }}>
           <Text style={{ color: 'grey', paddingLeft: 10 }}>
@@ -111,14 +71,22 @@ const ListOrder = () => {
 
   const [listOrder, setListOrder] = useState([]);
   useEffect(() => {
-    HandleGetListOrder();
+    handleGetListOrder();
   }, []);
-  const HandleGetListOrder = async () => {
+
+  const handleGetListOrder = async () => {
     try {
+      // const accessToken = await AsyncStorage.getItem('userToken');
       const { data: responseData } = await axios.get(
         'https://eshop-api.ngxhuyhoang.com/order/list',
+        {
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiIxZWI3NWUwYS01ZTAxLTQ4OTctODg5My1mZmE4MzY5MjY0ZjkiLCJwcm9maWxlSWQiOiI2NDZhZDk1MS05OTNkLTQxNTMtYjY4YS0xMWEwZTk5ZDgyZDciLCJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzA1MjkyNDkwLCJleHAiOjE3MDc4ODQ0OTB9.aNnPtuNx_IZpi6WOxmNAaXp8d7_c_wz5mSx6hlO_I_o`,
+          },
+        },
       );
-      setListOrder(responseData.data);
+      // setListOrder(responseData.data);
+      console.log(responseData.data);
     } catch (e) {
       console.log(e);
     }
@@ -126,22 +94,23 @@ const ListOrder = () => {
 
   const renderItem = ({ item }: any) => (
     <Item
-      id={item.id}
+      id={item.productId}
       image={item.image}
-      name={item.name}
+      title={item.title}
       price={item.price}
       quantity={item.quantity}
       totalAmount={item.totalAmount}
     />
   );
-  console.log(listOrder);
-  const onPress = () => {
-    navigation.navigate('ShoppingCart');
-  };
 
   return (
     <View style={{ flex: 1, backgroundColor: '#DDDDDD' }}>
-      <Button onPress={onPress} title="Shopping Cart" />
+      <Button
+        onPress={() => {
+          navigation.navigate('ShoppingCart');
+        }}
+        title="Shopping Cart"
+      />
 
       <Text
         style={{
