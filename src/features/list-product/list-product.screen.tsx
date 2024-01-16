@@ -118,7 +118,10 @@ const ProductPage = () => {
               width: 32,
               height: 32,
             }}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('ShoppingCart');
+              }}>
               <Cart name="shopping-cart" size={20} color="white" />
             </TouchableOpacity>
           </View>
