@@ -1,12 +1,15 @@
 import { NavigationContainer } from '@react-navigation/native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DevSettings, NativeModules, Platform } from 'react-native';
+import FlashMessage from 'react-native-flash-message';
 import KeyboardManager from 'react-native-keyboard-manager';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { ProductContext } from './features/list-product/list-product.screen';
 import AppStack from './navigators/app.stack';
-import FlashMessage from 'react-native-flash-message';
 
 const App = () => {
+  const [productCart, setProductCart] = useState([]);
+
   useEffect(() => {
     if (__DEV__) {
       DevSettings.addMenuItem('Bật debug', () => {
@@ -14,6 +17,70 @@ const App = () => {
       });
     }
   }, []);
+
+  //Hàm xử lý tác vụ thêm sản phẩm
+  const onHandleItem = product => {
+    // product = Object.assign(
+    //   { quantity: 1, totalPrice: product.price },
+    //   product,
+    // );
+
+    const existedProduct = productCart.find(x => x.id === product.id);
+
+    console.log(existedProduct);
+
+    if (existedProduct) {
+      // Da co
+      console.log('Da co');
+      setProductCart(prevState => {
+        const newArr = [...prevState];
+        const index = newArr.findIndex(x => x.id === product.id);
+        newArr[index].quantity += 1;
+        return newArr;
+      });
+    } else {
+      // Chua co
+      setProductCart([...productCart, product]);
+    }
+  };
+
+  // Hàm tăng số lượng sản phẩm trong giỏ hàng
+  const onIncreaseProduct = (props: { id: any }) => {
+    setProductCart([...productCart]);
+    const product = productCart.map(item => {
+      if (item.id === props.id) {
+        return {
+          ...item,
+          quantity: String(Number(item.quantity) + 1),
+        };
+      }
+      return item;
+    });
+    setProductCart([...product]);
+  };
+
+  // Hàm giảm số lượng sản phẩm trong giỏ hàng
+  const onDecreaseProduct = (product: { id: string }) => {
+    setProductCart(prevState => {
+      const newArr = [...prevState];
+      const index = newArr.findIndex(x => x.id === product.id);
+      if (Number(newArr[index].quantity) > 1) {
+        newArr[index].quantity -= 1;
+      }
+      return newArr;
+    });
+  };
+  //Xóa sản phẩm
+  const onRemoveProduct = product => {
+    setProductCart(prevState => {
+      const newArr = [...prevState];
+      return newArr.filter(item => item.id !== product.id);
+    });
+  };
+
+  const CartIcon = () => {
+    return productCart.length;
+  };
 
   if (Platform.OS === 'ios') {
     KeyboardManager.setEnable(true);
@@ -38,7 +105,17 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <AppStack />
+        <ProductContext.Provider
+          value={{
+            productCart,
+            onHandleItem,
+            onDecreaseProduct,
+            onIncreaseProduct,
+            onRemoveProduct,
+            CartIcon,
+          }}>
+          <AppStack />
+        </ProductContext.Provider>
       </NavigationContainer>
       <FlashMessage position="top" floating />
     </SafeAreaProvider>

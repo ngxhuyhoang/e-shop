@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Alert,
   Button,
@@ -13,8 +13,9 @@ import {
 import { Item, data } from './shopping-cart.screen';
 import NavBar from '../nav-bar/nav-bar';
 import Icon from 'react-native-vector-icons/AntDesign';
-import NotificationPopup from 'react-native-push-notification-popup';
-
+import { ProductContext } from '../list-product/list-product.screen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 const userInfo = {
   name: 'abc',
   phoneNumber: '123',
@@ -23,36 +24,46 @@ const userInfo = {
 };
 
 export const ShoppingCart = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
+  const productCart = useContext<any>(ProductContext);
+
   const [modalVisible, setModalVisible] = useState(false);
 
+  interface itemProps {
+    category: string;
+    createdAt: string;
+    deletedDate: string;
+    description: string;
+    id: string;
+    image: string;
+    price: Number;
+    title: string;
+    updatedAt: string;
+    quantity: Number;
+  }
   const renderItem = ({ item }: any) => (
     <Item
+      category={item.category}
+      createdAt={item.createdAt}
+      deletedDate={item.deletedDate}
+      description={item.description}
       id={item.id}
       image={item.image}
-      name={item.name}
-      price={item.price}
-      quantity={item.quantity}
-      totalAmount={item.totalAmount}
+      price={Number(item.price)}
+      title={item.title}
+      totalPrice={Number(item.price) * Number(item.quantity)}
+      updatedAt={item.updatedAt}
+      quantity={Number(item.quantity)}
     />
   );
 
   return (
     <View style={{ flex: 1, backgroundColor: '#DDDDDD' }}>
       {/* <Button onPress={onPress} title="List Order" /> */}
-      <NavBar title="" />
-      <Text
-        style={{
-          backgroundColor: 'white',
-          paddingLeft: 30,
-          paddingBottom: 30,
-          paddingTop: 20,
-          fontSize: 25,
-        }}>
-        Giỏ hàng
-      </Text>
+      <NavBar title="Giỏ hàng" />
+
       <FlatList
-        data={data}
+        data={productCart.productCart}
         renderItem={renderItem}
         keyExtractor={item => item.id}
         contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 }}
@@ -83,9 +94,44 @@ export const ShoppingCart = () => {
 };
 
 export const Payment = ({ isVisible, onClose }) => {
-  const totalPrice = data.reduce((accumulator, currentValue) => {
-    return accumulator + currentValue.totalAmount;
-  }, 0);
+  const PostOrderAPI = async () => {
+    const order = {
+      fullName: 'aBCD',
+      address: 'HCM',
+      phone: '093157015',
+      email: 'tb@gmail.com',
+      productId: '1',
+      productQuantity: 3,
+      productImage:
+        'https://bobui.vn/cms/wp-content/uploads/2022/08/SAN-PHAM-T9-WEB_11-scaled.jpg',
+      totalPrice: 30,
+    };
+    const apiURL = 'https://eshop-api.ngxhuyhoang.com/order/create';
+    const accessToken = await AsyncStorage.getItem('userToken');
+    try {
+      let result = await axios.post(
+        apiURL,
+        {
+          ...order,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
+      let ord = await result; // Resolve the promise and get the response from the API
+      console.log(ord); // Log the response to the console
+    } catch (error) {
+      console.error(error); // Handle errors if any
+    }
+  };
+
+  // const totalPrice = data.reduce((accumulator, currentValue) => {
+  //   return accumulator + currentValue.totalAmount;
+  // }, 0);
+  const totalPrice = 5;
 
   const navigation = useNavigation();
   return (
@@ -268,12 +314,13 @@ export const Payment = ({ isVisible, onClose }) => {
           <View style={{ marginTop: 10 }}>
             <TouchableOpacity
               onPress={() => {
-                Alert.alert('', 'Đặt hàng thành công', [
-                  {
-                    text: 'OK',
-                    onPress: () => navigation.navigate('ListOrder'),
-                  },
-                ]);
+                PostOrderAPI();
+                // Alert.alert('', 'Đặt hàng thành công', [
+                //   {
+                //     text: 'OK',
+                //     onPress: () => navigation.navigate('ListOrder'),
+                //   },
+                // ]);
               }}>
               <Text
                 style={{

@@ -1,5 +1,4 @@
-/* eslint-disable react-native/no-inline-styles */
-import React, { useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -8,15 +7,22 @@ import {
   Image,
   TouchableOpacity,
   ListRenderItem,
+  Alert,
 } from 'react-native';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import Cart from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ShoppingCart from 'react-native-vector-icons/Feather';
+//Tạo Context
+export const ProductContext = createContext([]);
 
+// Khởi tạo biến productPage
 const ProductPage = () => {
   const navigation = useNavigation<any>();
+
+  const cartContext = useContext(ProductContext);
+
   const [products, setProducts] = useState([]);
   useEffect(() => {
     handleGetListProduct();
@@ -27,13 +33,13 @@ const ProductPage = () => {
       const { data: responseData } = await axios.get(
         'https://eshop-api.ngxhuyhoang.com/product/list',
       );
-      setProducts(responseData.data);
+      setProducts(responseData.data.map(x => ({ ...x, quantity: 1 })));
     } catch (e) {
       console.log(e);
     }
   };
 
-  const handleProductPress = product => {
+  const handleProductPress = (product: any) => {
     navigation.navigate('DetailProduct', { product });
   };
 
@@ -65,8 +71,17 @@ const ProductPage = () => {
                 {item.price} $
               </Text>
             </View>
-            <TouchableOpacity style={{ marginHorizontal: 8 }}>
-              <ShoppingCart name="shopping-cart" size={20} />
+
+            <TouchableOpacity
+              onPress={() => {
+                cartContext.onHandleItem(item);
+                Alert.alert('Thêm sản phẩm thành công');
+              }}>
+              <ShoppingCart
+                name="shopping-cart"
+                size={20}
+                style={{ marginHorizontal: 8 }}
+              />
             </TouchableOpacity>
           </View>
         </View>
@@ -103,9 +118,19 @@ const ProductPage = () => {
               width: 32,
               height: 32,
             }}>
-            <TouchableOpacity>
-              <Cart name="shopping-cart" size={20} color="white" />
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('ShoppingCart');
+              }}>
+              <Cart name="shopping-cart" size={20} color={'white'} />
             </TouchableOpacity>
+            <View
+              style={[
+                styles.textContainer,
+                { opacity: cartContext.CartIcon() },
+              ]}>
+              <Text style={styles.text}>{cartContext.CartIcon()}</Text>
+            </View>
           </View>
           <View
             style={{
@@ -141,7 +166,7 @@ const ProductPage = () => {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    flex: 1,
     padding: 16,
   },
   columnWrapper: {
@@ -154,36 +179,36 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingBottom: 16,
   },
-  productImage: {
-    width: '100%',
-    height: 150,
-    resizeMode: 'cover',
-  },
+  // productImage: {
+  //   width: '100%',
+  //   height: 150,
+  //   resizeMode: 'cover',
+  // },
   productName: {
     fontSize: 16,
     fontWeight: 'bold',
     marginVertical: 8,
   },
 
-  productPrice: {
-    fontSize: 14,
-    color: 'red',
-    alignSelf: 'flex-start',
+  // buyItemIcon: {
+  //   marginHorizontal: 8,
+  //   width: 24,
+  //   height: 24,
+  // },
+  textContainer: {
+    backgroundColor: 'red',
+    borderRadius: 10,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    position: 'absolute',
+    top: -8,
+    right: -4,
+    zIndex: 1,
   },
-  productInfor: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 8,
-  },
-  buyItem: {
-    marginHorizontal: 8,
-    tintColor: 'red',
-  },
-  buyItemIcon: {
-    marginHorizontal: 8,
-    width: 24,
-    height: 24,
+  text: {
+    color: 'white',
+    fontSize: 12,
+    fontWeight: 'bold',
   },
 });
 
