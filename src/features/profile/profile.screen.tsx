@@ -55,12 +55,21 @@ const Profile = () => {
 
   return (
     <View style={{ flex: 1, justifyContent: 'center' }}>
+      
       <View style={{ flex: 1 }}>
+        
         <ImageBackground
           source={require('../../../pics/screenBlue.jpg')}
           resizeMode="cover"
           style={{ width: '100%', height: 250, position: 'absolute' }}
         />
+         {/* <TouchableOpacity>
+          <Icon
+            name="edit"
+            size={25}
+            style={{ marginLeft: 70, marginTop: 10, position: 'absolute' }}
+          />
+        </TouchableOpacity> */}
       </View>
       <View style={{ marginLeft: 16, paddingTop: 40 }}>
         <Image
@@ -69,18 +78,27 @@ const Profile = () => {
             width: 100,
             height: 100,
             borderRadius: 50,
-            paddingHorizontal: 16,
           }}
         />
-        <TouchableOpacity style={{ paddingBottom: 10 }}>
-          <Icon
-            name="edit"
-            size={25}
-            style={{ marginLeft: 60, position: 'absolute' }}
-          />
-        </TouchableOpacity>
+        <View style={{position: 'absolute', marginHorizontal: 96, marginTop: 40}}>
+        <Text
+          style={{
+            marginTop: 20,
+            fontSize: 20,
+          }}>
+          Xin chào: {userInfo.displayName}
+        </Text>
+        <Text
+          style={{
+            marginTop: 20,
+            fontSize: 20,
+          }}>
+          {userInfo.avatar}
+        </Text>
+        </View>
+       
       </View>
-
+{/* 
       <View
         style={{
           flex: 1,
@@ -103,7 +121,7 @@ const Profile = () => {
           }}>
           {userInfo.avatar}
         </Text>
-      </View>
+      </View> */}
 
       <View
         style={{
@@ -235,14 +253,13 @@ const Profile = () => {
           </View>
         </TouchableOpacity>
       </View>
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 0.7 }}>
         <TouchableOpacity
           style={{
             borderRadius: 10,
             backgroundColor: '#0c66e4',
             paddingVertical: 8,
-            paddingHorizontal: 10,
-            marginBottom: 20,
+            paddingHorizontal: 8,
             margin: 16,
             alignItems: 'center',
           }}
