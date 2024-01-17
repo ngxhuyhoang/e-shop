@@ -179,22 +179,13 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingBottom: 16,
   },
-  // productImage: {
-  //   width: '100%',
-  //   height: 150,
-  //   resizeMode: 'cover',
-  // },
+
   productName: {
     fontSize: 16,
     fontWeight: 'bold',
     marginVertical: 8,
   },
 
-  // buyItemIcon: {
-  //   marginHorizontal: 8,
-  //   width: 24,
-  //   height: 24,
-  // },
   textContainer: {
     backgroundColor: 'red',
     borderRadius: 10,
