@@ -161,7 +161,7 @@ export const Payment = ({ isVisible, onClose }) => {
             borderBlockColor: '#00000090',
             borderTopLeftRadius: 16,
             borderTopRightRadius: 16,
-            height: '60%',
+            height: '65%',
           }}>
           <Pressable onPress={() => onClose()}>
             <Icon
